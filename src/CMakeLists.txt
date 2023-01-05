@@ -1,0 +1,3 @@
+list(APPEND PROJECT_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/main.cpp
+)

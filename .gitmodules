@@ -1,0 +1,8 @@
+[submodule "thirdparty/imgui"]
+	path = thirdparty/imgui
+	url = https://github.com/ashifolfi/imgui-cmake
+	branch = docking
+[submodule "thirdparty/sdl"]
+	path = thirdparty/sdl
+	url = https://github.com/libsdl-org/SDL
+	branch = SDL2
