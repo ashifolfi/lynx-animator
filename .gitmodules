@@ -6,3 +6,9 @@
 	path = thirdparty/sdl
 	url = https://github.com/libsdl-org/SDL
 	branch = SDL2
+[submodule "thirdparty/fmt"]
+	path = thirdparty/fmt
+	url = https://github.com/fmtlib/fmt
+[submodule "thirdparty/zlib"]
+	path = thirdparty/zlib
+	url = https://github.com/madler/zlib
