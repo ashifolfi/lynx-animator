@@ -1,3 +1,6 @@
-list(APPEND PROJECT_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/main.cpp
+sourcefiles(
+    main.cpp
 )
+
+include_dir(core)
+include_dir(gui)

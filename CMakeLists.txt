@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
-project(LYNXANIMATOR)
+project(LynxAnimator)
 set(CMAKE_CXX_STANDARD 20)
+
+# Build scripts
+include(build-scripts/sourcelist.cmake)
 
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
@@ -57,8 +60,7 @@ target_link_libraries(imgui PRIVATE ${IMGUI_LINK_LIBRARIES})
 
 list(APPEND PROJECT_LINK_LIBRARIES imgui)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/src/CMakeLists.txt)
-list(APPEND PROJECT_SOURCES ${PROJECT_HEADERS})
+include_dir(src)
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
@@ -71,3 +73,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/sr
 target_link_libraries(${PROJECT_NAME} PUBLIC ${OPENGL_LIBRARIES} ${PROJECT_LINK_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+add_custom_target(${PROJECT_NAME}CopyResources
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_BINARY_DIR}/bin/resources)
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}CopyResources)
