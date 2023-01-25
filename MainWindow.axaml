@@ -6,8 +6,8 @@
         x:Class="Animator.MainWindow"
         Title="Lynx Animator">
     <StackPanel>
-        Hello World!
-        <Button Height="48" Click="button1_Click">Test 1</Button>
-        <Button Height="48" Click="button2_Click">Test 2</Button>
+        <TextBlock>Hello World!</TextBlock>
+        <Button Click="button1_Click">Test 1</Button>
+        <Button Click="button2_Click">Test 2</Button>
     </StackPanel>
 </Window>
