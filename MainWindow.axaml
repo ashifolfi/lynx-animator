@@ -4,6 +4,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Animator.MainWindow"
-        Title="Animator">
-    Test!
+        Title="Lynx Animator">
+    <StackPanel>
+        Hello World!
+        <Button Height="48" Click="button1_Click">Test 1</Button>
+        <Button Height="48" Click="button2_Click">Test 2</Button>
+    </StackPanel>
 </Window>

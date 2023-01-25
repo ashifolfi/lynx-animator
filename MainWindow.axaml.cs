@@ -1,11 +1,30 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
 
-namespace Animator;
-
-public partial class MainWindow : Window
+namespace Animator
 {
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
+        public MainWindow()
+        {
+            // Generated with Avalonia.NameGenerator
+            InitializeComponent();
+        }
+
+        public void button1_Click(object sender, RoutedEventArgs e)
+        {
+            // Change button text when button is clicked.
+            var button = (Button)sender;
+            Console.WriteLine("Button 1 Clicked!");
+        }
+        
+        public void button2_Click(object sender, RoutedEventArgs e)
+        {
+            // Change button text when button is clicked.
+            var button = (Button)sender;
+            Console.WriteLine("Button 2 Clicked!");
+        }
     }
 }
