@@ -1,19 +1,18 @@
-using Avalonia;
+using System;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Dock.Avalonia.Controls;
 using Dock.Model;
-using Dock.Model.Core;
 using Dock.Model.Avalonia;
+using Dock.Model.Core;
 
-namespace Animator
-{
-    public partial class MainWindow : Window
+namespace Animator {
+    public partial class MainView : UserControl
     {
-        public MainWindow()
+        public MainView()
         {
-            // Generated with Avalonia.NameGenerator
             InitializeComponent();
         }
 
