@@ -28,10 +28,10 @@ void ProjectStageView::initializeGL()
 #define CANVAS_SCALE 100
     // create the stage backdrop
     QList<StageVertex> stageVerts = {
-        StageVertex(QVector3D(-(project->stageWidth / CANVAS_SCALE), -(project->stageHeight / CANVAS_SCALE), 0), QVector3D(1, 0, 0), QVector2D(0, 0)),
-        StageVertex(QVector3D( (project->stageWidth / CANVAS_SCALE), -(project->stageHeight / CANVAS_SCALE), 0), QVector3D(0, 1, 0), QVector2D(1, 0)),
-        StageVertex(QVector3D( (project->stageWidth / CANVAS_SCALE),  (project->stageHeight / CANVAS_SCALE), 0), QVector3D(0, 0, 1), QVector2D(1, 1)),
-        StageVertex(QVector3D(-(project->stageWidth / CANVAS_SCALE),  (project->stageHeight / CANVAS_SCALE), 0), QVector3D(1, 1, 1), QVector2D(0, 1))
+        StageVertex(QVector3D(-(project->stageWidth / 2) / CANVAS_SCALE, -(project->stageHeight / 2) / CANVAS_SCALE, 0), QVector3D(1, 0, 0), QVector2D(0, 0)),
+        StageVertex(QVector3D( (project->stageWidth / 2) / CANVAS_SCALE, -(project->stageHeight / 2) / CANVAS_SCALE, 0), QVector3D(0, 1, 0), QVector2D(1, 0)),
+        StageVertex(QVector3D( (project->stageWidth / 2) / CANVAS_SCALE,  (project->stageHeight / 2) / CANVAS_SCALE, 0), QVector3D(0, 0, 1), QVector2D(1, 1)),
+        StageVertex(QVector3D(-(project->stageWidth / 2) / CANVAS_SCALE,  (project->stageHeight / 2) / CANVAS_SCALE, 0), QVector3D(1, 1, 1), QVector2D(0, 1))
     };
 #undef CANVAS_SCALE
 
@@ -108,7 +108,7 @@ void ProjectStageView::paintGL()
     this->mainShader.setUniformValue("uMVP", projectionMatrix);
 
     float offs = ( 0.5f / aspect );
-    QVector2D offsets = { remap( 0, 0, 4096, offs * ( cameraZoom + ( 1 - scalarX ) ), -offs * ( cameraZoom + ( 1 - scalarX ) ) ), remap( 0, 0, 4096, -offs * ( cameraZoom + ( 1 - scalarY ) ), offs * ( cameraZoom + ( 1 - scalarY ) ) ) };
+    QVector2D offsets = { remap( xOffset_, 0, 4096, offs * ( cameraZoom + ( 1 - scalarX ) ), -offs * ( cameraZoom + ( 1 - scalarX ) ) ), remap( yOffset_, 0, 4096, -offs * ( cameraZoom + ( 1 - scalarY ) ), offs * ( cameraZoom + ( 1 - scalarY ) ) ) };
 
     int OFFSETProcessing = this->mainShader.uniformLocation( "OFFSET" );
 
