@@ -27,26 +27,6 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>File</source>
-        <translation type="vanished">File</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="vanished">Edit</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="vanished">View</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="vanished">Help</translation>
-    </message>
-    <message>
-        <source>Tools</source>
-        <translation type="vanished">Tools</translation>
-    </message>
-    <message>
         <location filename="../../mainwindow.cpp" line="53"/>
         <source>About Animator</source>
         <translation>About Animator</translation>
@@ -95,10 +75,6 @@
         <location filename="../../mainwindow.cpp" line="52"/>
         <source>&amp;Help</source>
         <translation>&amp;Help</translation>
-    </message>
-    <message>
-        <source>Close All</source>
-        <translation type="vanished">Close All</translation>
     </message>
     <message>
         <location filename="../../mainwindow.cpp" line="48"/>
@@ -167,8 +143,8 @@
     </message>
     <message>
         <location filename="../../widgets/projectstageview.cpp" line="18"/>
-        <source>Unable to initialize OpenGL 3.2 Core context! Please upgrade your computer to preview models.</source>
-        <translation>Unable to initialize OpenGL 3.2 Core context! Please upgrade your computer to preview models.</translation>
+        <source>Unable to initialize OpenGL 3.2 Core context!</source>
+        <translation>Unable to initialize OpenGL 3.2 Core context!</translation>
     </message>
 </context>
 </TS>
