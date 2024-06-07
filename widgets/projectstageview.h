@@ -67,7 +67,6 @@ private:
 
     float cameraPosition[2];
     float cameraZoom = 1.0;
-    float distanceScale = 0.05;
 
     ProjectData* project = nullptr;
 };

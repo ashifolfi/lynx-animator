@@ -137,12 +137,12 @@
 <context>
     <name>ProjectStageView</name>
     <message>
-        <location filename="../../widgets/projectstageview.cpp" line="18"/>
+        <location filename="../../widgets/projectstageview.cpp" line="20"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../widgets/projectstageview.cpp" line="18"/>
+        <location filename="../../widgets/projectstageview.cpp" line="20"/>
         <source>Unable to initialize OpenGL 3.2 Core context!</source>
         <translation>Unable to initialize OpenGL 3.2 Core context!</translation>
     </message>

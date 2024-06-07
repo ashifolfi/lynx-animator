@@ -1,5 +1,7 @@
 #include "projectstageview.h"
 
+#define remap( value, low1, high1, low2, high2 ) ( low2 + ( value - low1 ) * ( high2 - low2 ) / ( high1 - low1 ) )
+
 ProjectStageView::ProjectStageView(ProjectData* projectData, QWidget *parent)
     : QOpenGLWidget(parent)
     , QOpenGLFunctions_3_2_Core()
@@ -23,13 +25,15 @@ void ProjectStageView::initializeGL()
     this->mainShader.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/main.frag");
     this->mainShader.link();
 
+#define CANVAS_SCALE 100
     // create the stage backdrop
     QList<StageVertex> stageVerts = {
-        StageVertex(QVector3D(-(project->stageWidth / 2), -(project->stageHeight / 2), 0), QVector3D(1, 1, 1), QVector2D(0, 0)),
-        StageVertex(QVector3D( (project->stageWidth / 2), -(project->stageHeight / 2), 0), QVector3D(1, 1, 1), QVector2D(1, 0)),
-        StageVertex(QVector3D( (project->stageWidth / 2),  (project->stageHeight / 2), 0), QVector3D(1, 1, 1), QVector2D(1, 1)),
-        StageVertex(QVector3D(-(project->stageWidth / 2),  (project->stageHeight / 2), 0), QVector3D(1, 1, 1), QVector2D(0, 1))
+        StageVertex(QVector3D(-(project->stageWidth / CANVAS_SCALE), -(project->stageHeight / CANVAS_SCALE), 0), QVector3D(1, 0, 0), QVector2D(0, 0)),
+        StageVertex(QVector3D( (project->stageWidth / CANVAS_SCALE), -(project->stageHeight / CANVAS_SCALE), 0), QVector3D(0, 1, 0), QVector2D(1, 0)),
+        StageVertex(QVector3D( (project->stageWidth / CANVAS_SCALE),  (project->stageHeight / CANVAS_SCALE), 0), QVector3D(0, 0, 1), QVector2D(1, 1)),
+        StageVertex(QVector3D(-(project->stageWidth / CANVAS_SCALE),  (project->stageHeight / CANVAS_SCALE), 0), QVector3D(1, 1, 1), QVector2D(0, 1))
     };
+#undef CANVAS_SCALE
 
     QList<unsigned short> indices = {
         0, 3, 2,
@@ -48,8 +52,6 @@ void ProjectStageView::initializeGL()
     this->ebo.bind();
     this->ebo.allocate(indices.constData(), static_cast<int>(this->indexCount * sizeof(unsigned short)));
     this->ebo.release();
-
-
 }
 
 void ProjectStageView::paintGL()
@@ -67,14 +69,52 @@ void ProjectStageView::paintGL()
 
     this->mainShader.bind();
 
-    QMatrix4x4 view;
-    QVector3D translation(0, 0, 0);
-    view.translate(translation);
-    view.rotate(QQuaternion(0,0,0,0));
-    this->mainShader.setUniformValue("uMVP", this->projection * view);
+    float aspect = (float)this->width() / (float)this->height();
+
+    QMatrix4x4 projectionMatrix = {
+                                   1, 0.0f, 0.0f, 0.0f,
+                                   0.0f, 1, 0.0f, 0.0f,
+                                   0.0f, 0.0f, 1.0f, 0.0f,
+                                   0.0f, 0.0f, 0.0f, 1.0f };
+
+    // TODO: figure this out properly, this feels terrible.
+    int startWidht = this->width();
+    int startHeight = this->height();
+
+    float scalarX = (float)startWidht / this->width();
+    float scalarY = (float)startHeight / this->height();
+
+    float zoomFactor = 1 / cameraZoom;
+    if ( zoomFactor > 10 )
+        zoomFactor = 10;
+
+    if ( zoomFactor < 0.00000001 )
+        zoomFactor = 0.00000001;
+
+    float xSpan = zoomFactor;
+    float ySpan = zoomFactor;
+
+    if ( aspect > 1 )
+    {
+        xSpan *= aspect;
+    }
+    else
+    {
+        ySpan = xSpan / aspect;
+    }
+
+    projectionMatrix.ortho( -1 * xSpan, xSpan, -1 * ySpan, ySpan, -0, 1 );
+
+    this->mainShader.setUniformValue("uMVP", projectionMatrix);
+
+    float offs = ( 0.5f / aspect );
+    QVector2D offsets = { remap( 0, 0, 4096, offs * ( cameraZoom + ( 1 - scalarX ) ), -offs * ( cameraZoom + ( 1 - scalarX ) ) ), remap( 0, 0, 4096, -offs * ( cameraZoom + ( 1 - scalarY ) ), offs * ( cameraZoom + ( 1 - scalarY ) ) ) };
+
+    int OFFSETProcessing = this->mainShader.uniformLocation( "OFFSET" );
+
+    this->mainShader.setUniformValue( OFFSETProcessing, offsets );
 
     this->vertices.bind();
-
     this->ebo.bind();
 
     int offset = 0;
@@ -104,28 +144,19 @@ void ProjectStageView::paintGL()
 void ProjectStageView::resizeGL(int width, int height)
 {
     this->glViewport(0, 0, width, height);
-    this->projection.setToIdentity();
-    this->projection.ortho(
-        cameraZoom * -(project->stageWidth / 2),
-        cameraZoom *  (project->stageWidth / 2),
-        cameraZoom *  (project->stageHeight / 2),
-        cameraZoom * -(project->stageHeight / 2),
-        0, -20000);
 }
 
 void ProjectStageView::wheelEvent(QWheelEvent* event) {
-    if (QPoint numDegrees = event->angleDelta() / 8; !numDegrees.isNull()) {
-        this->cameraZoom -= static_cast<float>(numDegrees.y()) * this->distanceScale;
-
-        this->cameraZoom = std::clamp(this->cameraZoom, 0.5f, 4.0f);
-
-        this->projection.setToIdentity();
-        this->projection.ortho(
-            cameraZoom * -(project->stageWidth / 2),
-            cameraZoom *  (project->stageWidth / 2),
-            cameraZoom *  (project->stageHeight / 2),
-            cameraZoom * -(project->stageHeight / 2),
-            0, -20000);
+    if ( event->angleDelta().y() > 0 ) // up Wheel
+    {
+        this->cameraZoom += 0.1f;
+        this->cameraZoom = std::clamp(this->cameraZoom, 0.01f, 4.0f);
+        this->update();
+    }
+    else if ( event->angleDelta().y() < 0 ) // down Wheel
+    {
+        this->cameraZoom -= 0.1f;
+        this->cameraZoom = std::clamp(this->cameraZoom, 0.01f, 4.0f);
         this->update();
     }
     event->accept();
