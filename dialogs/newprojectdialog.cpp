@@ -17,7 +17,12 @@ NewProjectDialog::~NewProjectDialog()
 void NewProjectDialog::on_buttonBox_accepted()
 {
     // this should be the main window
-    static_cast<MainWindow*>(this->parent())->AddProject(nullptr);
+    ProjectData projDat;
+    projDat.Title = "Untitled";
+    projDat.stageHeight = ui->heightSpinBox->value();
+    projDat.stageWidth = ui->widthSpinBox->value();
+
+    static_cast<MainWindow*>(this->parent())->AddProject(&projDat);
     this->close();
 }
 

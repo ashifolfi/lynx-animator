@@ -50,10 +50,11 @@ protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
-    /*void mousePressEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void wheelEvent(QWheelEvent* event) override;*/
+    //void mousePressEvent(QMouseEvent* event) override;
+    //void mouseReleaseEvent(QMouseEvent* event) override;
+    //void mouseMoveEvent(QMouseEvent* event) override;
+    void wheelEvent(QWheelEvent* event) override;
+    void timerEvent(QTimerEvent* event) override;
 
 private:
     QOpenGLShaderProgram mainShader;
@@ -62,9 +63,11 @@ private:
     QOpenGLBuffer ebo{QOpenGLBuffer::Type::IndexBuffer};
     int vertexCount;
     int indexCount;
+    QBasicTimer timer;
 
     float cameraPosition[2];
     float cameraZoom = 1.0;
+    float distanceScale = 0.05;
 
     ProjectData* project = nullptr;
 };

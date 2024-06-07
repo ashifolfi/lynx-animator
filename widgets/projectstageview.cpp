@@ -25,10 +25,10 @@ void ProjectStageView::initializeGL()
 
     // create the stage backdrop
     QList<StageVertex> stageVerts = {
-        StageVertex(QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector2D(0, 0)),
-        StageVertex(QVector3D(5, 0, 0), QVector3D(0, 1, 0), QVector2D(1, 0)),
-        StageVertex(QVector3D(5, 5, 0), QVector3D(0, 0, 1), QVector2D(1, 1)),
-        StageVertex(QVector3D(0, 5, 0), QVector3D(1, 1, 1), QVector2D(0, 1))
+        StageVertex(QVector3D(-(project->stageWidth / 2), -(project->stageHeight / 2), 0), QVector3D(1, 1, 1), QVector2D(0, 0)),
+        StageVertex(QVector3D( (project->stageWidth / 2), -(project->stageHeight / 2), 0), QVector3D(1, 1, 1), QVector2D(1, 0)),
+        StageVertex(QVector3D( (project->stageWidth / 2),  (project->stageHeight / 2), 0), QVector3D(1, 1, 1), QVector2D(1, 1)),
+        StageVertex(QVector3D(-(project->stageWidth / 2),  (project->stageHeight / 2), 0), QVector3D(1, 1, 1), QVector2D(0, 1))
     };
 
     QList<unsigned short> indices = {
@@ -36,6 +36,7 @@ void ProjectStageView::initializeGL()
         2, 1, 0
     };
 
+    this->vertexCount = static_cast<int>(stageVerts.size());
     this->vertices.create();
     this->vertices.bind();
     this->vertices.setUsagePattern(QOpenGLBuffer::StaticDraw);
@@ -47,6 +48,8 @@ void ProjectStageView::initializeGL()
     this->ebo.bind();
     this->ebo.allocate(indices.constData(), static_cast<int>(this->indexCount * sizeof(unsigned short)));
     this->ebo.release();
+
+
 }
 
 void ProjectStageView::paintGL()
@@ -68,6 +71,7 @@ void ProjectStageView::paintGL()
     QVector3D translation(0, 0, 0);
     view.translate(translation);
     view.rotate(QQuaternion(0,0,0,0));
+    this->mainShader.setUniformValue("uMVP", this->projection * view);
 
     this->vertices.bind();
 
@@ -93,11 +97,40 @@ void ProjectStageView::paintGL()
 
     this->vertices.release();
     this->mainShader.release();
+
+    this->timer.start(12, this);
 }
 
 void ProjectStageView::resizeGL(int width, int height)
 {
     this->glViewport(0, 0, width, height);
     this->projection.setToIdentity();
-    this->projection.ortho(0, width, height, 0, 0, -20000);
+    this->projection.ortho(
+        cameraZoom * -(project->stageWidth / 2),
+        cameraZoom *  (project->stageWidth / 2),
+        cameraZoom *  (project->stageHeight / 2),
+        cameraZoom * -(project->stageHeight / 2),
+        0, -20000);
+}
+
+void ProjectStageView::wheelEvent(QWheelEvent* event) {
+    if (QPoint numDegrees = event->angleDelta() / 8; !numDegrees.isNull()) {
+        this->cameraZoom -= static_cast<float>(numDegrees.y()) * this->distanceScale;
+
+        this->cameraZoom = std::clamp(this->cameraZoom, 0.5f, 4.0f);
+
+        this->projection.setToIdentity();
+        this->projection.ortho(
+            cameraZoom * -(project->stageWidth / 2),
+            cameraZoom *  (project->stageWidth / 2),
+            cameraZoom *  (project->stageHeight / 2),
+            cameraZoom * -(project->stageHeight / 2),
+            0, -20000);
+        this->update();
+    }
+    event->accept();
+}
+
+void ProjectStageView::timerEvent(QTimerEvent* /*event*/) {
+    this->update();
 }

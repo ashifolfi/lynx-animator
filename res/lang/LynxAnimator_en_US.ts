@@ -129,7 +129,7 @@
         <translation>Width:</translation>
     </message>
     <message>
-        <location filename="../../dialogs/newprojectdialog.ui" line="86"/>
+        <location filename="../../dialogs/newprojectdialog.ui" line="100"/>
         <source>Preset:</source>
         <translation>Preset:</translation>
     </message>
