@@ -47,52 +47,52 @@
         <translation type="vanished">Tools</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="51"/>
+        <location filename="../../mainwindow.cpp" line="53"/>
         <source>About Animator</source>
         <translation>About Animator</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="26"/>
+        <location filename="../../mainwindow.cpp" line="28"/>
         <source>New Project</source>
         <translation>New Project</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="22"/>
+        <location filename="../../mainwindow.cpp" line="24"/>
         <source>Lynx Animator</source>
         <translation>Lynx Animator</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="25"/>
+        <location filename="../../mainwindow.cpp" line="27"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="32"/>
+        <location filename="../../mainwindow.cpp" line="34"/>
         <source>Open Project</source>
         <translation>Open Project</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="36"/>
+        <location filename="../../mainwindow.cpp" line="38"/>
         <source>Save Project</source>
         <translation>Save Project</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="37"/>
+        <location filename="../../mainwindow.cpp" line="39"/>
         <source>Save Project As</source>
         <translation>Save Project As</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="41"/>
+        <location filename="../../mainwindow.cpp" line="43"/>
         <source>Close Project</source>
         <translation>Close Project</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="42"/>
+        <location filename="../../mainwindow.cpp" line="44"/>
         <source>Close All Projects</source>
         <translation>Close All Projects</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="50"/>
+        <location filename="../../mainwindow.cpp" line="52"/>
         <source>&amp;Help</source>
         <translation>&amp;Help</translation>
     </message>
@@ -101,7 +101,7 @@
         <translation type="vanished">Close All</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="46"/>
+        <location filename="../../mainwindow.cpp" line="48"/>
         <source>Quit</source>
         <translation>Quit</translation>
     </message>
@@ -130,7 +130,7 @@
         <translation type="vanished">Delete</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="55"/>
+        <location filename="../../mainwindow.cpp" line="57"/>
         <source>About Qt</source>
         <translation>About Qt</translation>
     </message>

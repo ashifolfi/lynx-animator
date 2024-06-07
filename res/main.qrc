@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>credits.md</file>
         <file>LICENSE</file>
+        <file>shaders/main.frag</file>
+        <file>shaders/main.vert</file>
     </qresource>
 </RCC>

@@ -15,6 +15,26 @@
 
 #include "../ProjectData.hpp"
 
+#pragma pack(push, 1)
+struct StageVertex
+{
+    StageVertex(QVector3D pos_, QVector3D color_, QVector2D uv_)
+        : pos(pos_)
+        , color(color_)
+        , uv(uv_) {}
+
+    QVector3D pos;
+    QVector3D color;
+    QVector2D uv;
+};
+#pragma pack(pop)
+
+struct StageMesh
+{
+    QOpenGLBuffer ebo{QOpenGLBuffer::Type::IndexBuffer};
+    int indexCount;
+};
+
 // special thanks to craftablescience's VPKEdit for assistance in learning how QtOpenGL works.
 class ProjectStageView : public QOpenGLWidget, protected QOpenGLFunctions_3_2_Core
 {
@@ -36,6 +56,15 @@ protected:
     void wheelEvent(QWheelEvent* event) override;*/
 
 private:
+    QOpenGLShaderProgram mainShader;
+    QMatrix4x4 projection;
+    QOpenGLBuffer vertices{QOpenGLBuffer::Type::VertexBuffer};
+    QOpenGLBuffer ebo{QOpenGLBuffer::Type::IndexBuffer};
+    int vertexCount;
+    int indexCount;
+
+    float cameraPosition[2];
+    float cameraZoom = 1.0;
 
     ProjectData* project = nullptr;
 };

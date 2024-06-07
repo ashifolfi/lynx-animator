@@ -19,6 +19,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    // default size is kinda temp
+    this->resize(1280, 720);
     setWindowTitle(tr("Lynx Animator"));
 
     // welcome to hell (creating menus)
@@ -57,6 +59,16 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     QVBoxLayout *layout = new QVBoxLayout(this);
+
+    QWidget *centralwidget = new QWidget(this);
+    centralwidget->setObjectName("centralwidget");
+    QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Preferred);
+    sizePolicy.setHorizontalStretch(0);
+    sizePolicy.setVerticalStretch(0);
+    sizePolicy.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
+    centralwidget->setSizePolicy(sizePolicy);
+    centralwidget->setLayout(layout);
+    this->setCentralWidget(centralwidget);
 
     projectTabHolder = new QTabWidget(this);
     layout->addWidget(projectTabHolder);
