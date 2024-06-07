@@ -9,16 +9,30 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets LinguistTools)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets LinguistTools)
 
-set(TS_FILES LynxAnimator_en_US.ts)
+set(TS_FILES res/lang/LynxAnimator_en_US.ts)
 
 set(PROJECT_SOURCES
         main.cpp
+        res/main.qrc
+
+        ProjectData.hpp
+
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+
+        dialogs/aboutdialog.h
+        dialogs/aboutdialog.cpp
+        dialogs/newprojectdialog.h
+        dialogs/newprojectdialog.cpp
+        dialogs/newprojectdialog.ui
+
+        widgets/projectstageview.h
+        widgets/projectstageview.cpp
+
         ${TS_FILES}
 )
 
@@ -26,7 +40,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(LynxAnimator
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        aboutdialog.h aboutdialog.cpp aboutdialog.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET LynxAnimator APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -50,7 +63,10 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(LynxAnimator PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(LynxAnimator PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::OpenGL
+    Qt${QT_VERSION_MAJOR}::OpenGLWidgets)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

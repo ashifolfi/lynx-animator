@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "ProjectData.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,12 +18,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void AddProject(ProjectData* data);
+
 private slots:
     void on_actionQuit_triggered();
-
     void on_actionAbout_Qt_triggered();
-
     void on_actionAbout_triggered();
+    void on_actionNew_Project_triggered();
 
 private:
     Ui::MainWindow *ui;
