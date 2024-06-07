@@ -27,11 +27,14 @@ void ProjectStageView::initializeGL()
 
 #define CANVAS_SCALE 100
     // create the stage backdrop
+    float stageWidthH = (project->stageWidth / 2) / CANVAS_SCALE;
+    float stageHeightH = (project->stageHeight / 2) / CANVAS_SCALE;
+
     QList<StageVertex> stageVerts = {
-        StageVertex(QVector3D(-(project->stageWidth / 2) / CANVAS_SCALE, -(project->stageHeight / 2) / CANVAS_SCALE, 0), QVector3D(1, 0, 0), QVector2D(0, 0)),
-        StageVertex(QVector3D( (project->stageWidth / 2) / CANVAS_SCALE, -(project->stageHeight / 2) / CANVAS_SCALE, 0), QVector3D(0, 1, 0), QVector2D(1, 0)),
-        StageVertex(QVector3D( (project->stageWidth / 2) / CANVAS_SCALE,  (project->stageHeight / 2) / CANVAS_SCALE, 0), QVector3D(0, 0, 1), QVector2D(1, 1)),
-        StageVertex(QVector3D(-(project->stageWidth / 2) / CANVAS_SCALE,  (project->stageHeight / 2) / CANVAS_SCALE, 0), QVector3D(1, 1, 1), QVector2D(0, 1))
+        StageVertex(QVector3D(-stageWidthH, -stageHeightH, 0), QVector3D(1, 0, 0), QVector2D(0, 0)),
+        StageVertex(QVector3D( stageWidthH, -stageHeightH, 0), QVector3D(0, 1, 0), QVector2D(1, 0)),
+        StageVertex(QVector3D( stageWidthH,  stageHeightH, 0), QVector3D(0, 0, 1), QVector2D(1, 1)),
+        StageVertex(QVector3D(-stageWidthH,  stageHeightH, 0), QVector3D(1, 1, 1), QVector2D(0, 1))
     };
 #undef CANVAS_SCALE
 
