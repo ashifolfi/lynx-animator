@@ -1,79 +1,78 @@
-cmake_minimum_required(VERSION 3.16)
-project(LynxAnimator)
-set(CMAKE_CXX_STANDARD 20)
+cmake_minimum_required(VERSION 3.5)
 
-# Build scripts
-include(build-scripts/sourcelist.cmake)
+project(LynxAnimator VERSION 0.1 LANGUAGES CXX)
 
-set(CMAKE_SKIP_BUILD_RPATH FALSE)
-set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
-set(CMAKE_INSTALL_RPATH $ORIGIN)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
-# Put all libraries in the executable folder
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# libraries
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
-# OPENGL
-find_package(OpenGL REQUIRED)
+set(TS_FILES LynxAnimator_en_US.ts)
 
-# SDL
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/sdl)
-list(APPEND PROJECT_LINK_LIBRARIES SDL2::SDL2)
+set(PROJECT_SOURCES
+        main.cpp
+        mainwindow.cpp
+        mainwindow.h
+        mainwindow.ui
+        ${TS_FILES}
+)
 
-# IMGUI
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(LynxAnimator
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
+        aboutdialog.h aboutdialog.cpp aboutdialog.ui
+    )
+# Define target properties for Android with Qt 6 as:
+#    set_property(TARGET LynxAnimator APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
+# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
-# Basic ImGui sources
-list(APPEND IMGUI_HEADERS
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imconfig.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imgui.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imgui_internal.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imstb_rectpack.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imstb_textedit.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imstb_truetype.h)
-list(APPEND IMGUI_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imgui.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imgui_demo.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imgui_draw.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imgui_tables.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/imgui_widgets.cpp)
+    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+else()
+    if(ANDROID)
+        add_library(LynxAnimator SHARED
+            ${PROJECT_SOURCES}
+        )
+# Define properties for Android with Qt 5 after find_package() calls as:
+#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+    else()
+        add_executable(LynxAnimator
+            ${PROJECT_SOURCES}
+        )
+    endif()
 
-list(APPEND IMGUI_HEADERS
-            ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/backends/imgui_impl_sdl.h
-            ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/backends/imgui_impl_opengl3.h)
-list(APPEND IMGUI_SOURCES
-            ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/backends/imgui_impl_sdl.cpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/backends/imgui_impl_opengl3.cpp)
-list(APPEND IMGUI_INCLUDE_DIRS
-            ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/sdl/include)
-list(APPEND IMGUI_LINK_LIBRARIES SDL2::SDL2)
+    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+endif()
 
+target_link_libraries(LynxAnimator PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-list(APPEND IMGUI_SOURCES ${IMGUI_HEADERS})
-add_library(imgui STATIC ${IMGUI_SOURCES})
-target_include_directories(imgui PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui
-        ${IMGUI_INCLUDE_DIRS})
-target_link_libraries(imgui PRIVATE ${IMGUI_LINK_LIBRARIES})
+# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
+# If you are developing for iOS or macOS you should consider setting an
+# explicit, fixed bundle identifier manually though.
+if(${QT_VERSION} VERSION_LESS 6.1.0)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.LynxAnimator)
+endif()
+set_target_properties(LynxAnimator PROPERTIES
+    ${BUNDLE_ID_OPTION}
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
 
-list(APPEND PROJECT_LINK_LIBRARIES imgui)
+include(GNUInstallDirs)
+install(TARGETS LynxAnimator
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 
-include_dir(src)
-
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-        ${OPENGL_INCLUDE_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/sdl/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui)
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
-target_link_libraries(${PROJECT_NAME} PUBLIC ${OPENGL_LIBRARIES} ${PROJECT_LINK_LIBRARIES})
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
-add_custom_target(${PROJECT_NAME}CopyResources
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_BINARY_DIR}/bin/resources)
-add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}CopyResources)
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(LynxAnimator)
+endif()
