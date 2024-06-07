@@ -27,107 +27,110 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../mainwindow.ui" line="14"/>
-        <source>MainWindow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../mainwindow.ui" line="50"/>
         <source>File</source>
-        <translation>File</translation>
+        <translation type="vanished">File</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="65"/>
         <source>Edit</source>
-        <translation>Edit</translation>
+        <translation type="vanished">Edit</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="77"/>
         <source>View</source>
-        <translation>View</translation>
+        <translation type="vanished">View</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="82"/>
         <source>Help</source>
-        <translation>Help</translation>
+        <translation type="vanished">Help</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="95"/>
         <source>Tools</source>
-        <translation>Tools</translation>
+        <translation type="vanished">Tools</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="104"/>
+        <location filename="../../mainwindow.cpp" line="51"/>
         <source>About Animator</source>
         <translation>About Animator</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="109"/>
+        <location filename="../../mainwindow.cpp" line="26"/>
         <source>New Project</source>
         <translation>New Project</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="114"/>
+        <location filename="../../mainwindow.cpp" line="22"/>
+        <source>Lynx Animator</source>
+        <translation>Lynx Animator</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="25"/>
+        <source>&amp;File</source>
+        <translation>&amp;File</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="32"/>
         <source>Open Project</source>
         <translation>Open Project</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="119"/>
+        <location filename="../../mainwindow.cpp" line="36"/>
         <source>Save Project</source>
         <translation>Save Project</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="124"/>
+        <location filename="../../mainwindow.cpp" line="37"/>
         <source>Save Project As</source>
         <translation>Save Project As</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="129"/>
+        <location filename="../../mainwindow.cpp" line="41"/>
         <source>Close Project</source>
         <translation>Close Project</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="134"/>
-        <source>Close All</source>
-        <translation>Close All</translation>
+        <location filename="../../mainwindow.cpp" line="42"/>
+        <source>Close All Projects</source>
+        <translation>Close All Projects</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="139"/>
+        <location filename="../../mainwindow.cpp" line="50"/>
+        <source>&amp;Help</source>
+        <translation>&amp;Help</translation>
+    </message>
+    <message>
+        <source>Close All</source>
+        <translation type="vanished">Close All</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="46"/>
         <source>Quit</source>
         <translation>Quit</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="144"/>
         <source>Undo</source>
-        <translation>Undo</translation>
+        <translation type="vanished">Undo</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="149"/>
         <source>Redo</source>
-        <translation>Redo</translation>
+        <translation type="vanished">Redo</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="154"/>
         <source>Cut</source>
-        <translation>Cut</translation>
+        <translation type="vanished">Cut</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="159"/>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation type="vanished">Copy</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="164"/>
         <source>Paste</source>
-        <translation>Paste</translation>
+        <translation type="vanished">Paste</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="169"/>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation type="vanished">Delete</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="174"/>
+        <location filename="../../mainwindow.cpp" line="55"/>
         <source>About Qt</source>
         <translation>About Qt</translation>
     </message>
@@ -136,8 +139,8 @@
     <name>NewProjectDialog</name>
     <message>
         <location filename="../../dialogs/newprojectdialog.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <source>New Project</source>
+        <translation>New Project</translation>
     </message>
     <message>
         <location filename="../../dialogs/newprojectdialog.ui" line="48"/>

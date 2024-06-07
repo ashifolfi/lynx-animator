@@ -19,6 +19,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    setWindowTitle(tr("Lynx Animator"));
+
     // welcome to hell (creating menus)
     QMenu *fileMenu = this->menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(this->style()->standardIcon(QStyle::SP_FileIcon), tr("New Project"),  Qt::CTRL | Qt::Key_N, [this] {
