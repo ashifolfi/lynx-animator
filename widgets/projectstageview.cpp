@@ -15,7 +15,7 @@ void ProjectStageView::initializeGL()
 {
     if (!this->initializeOpenGLFunctions())
     {
-        QMessageBox::critical(this, tr("Error"), tr("Unable to initialize OpenGL 3.2 Core context! Please upgrade your computer to preview models."));
+        QMessageBox::critical(this, tr("Error"), tr("Unable to initialize OpenGL 3.2 Core context!"));
         return; // and probably crash right after
     }
 
@@ -27,8 +27,8 @@ void ProjectStageView::initializeGL()
     QList<StageVertex> stageVerts = {
         StageVertex(QVector3D(0, 0, 0), QVector3D(1, 0, 0), QVector2D(0, 0)),
         StageVertex(QVector3D(5, 0, 0), QVector3D(0, 1, 0), QVector2D(1, 0)),
-        StageVertex(QVector3D(5, 0, 5), QVector3D(0, 0, 1), QVector2D(1, 1)),
-        StageVertex(QVector3D(0, 0, 5), QVector3D(1, 1, 1), QVector2D(0, 1))
+        StageVertex(QVector3D(5, 5, 0), QVector3D(0, 0, 1), QVector2D(1, 1)),
+        StageVertex(QVector3D(0, 5, 0), QVector3D(1, 1, 1), QVector2D(0, 1))
     };
 
     QList<unsigned short> indices = {
@@ -56,9 +56,10 @@ void ProjectStageView::paintGL()
 
     auto clearColor = opt.palette.color(QPalette::ColorRole::Window);
     this->glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
-    this->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    this->glClear(GL_COLOR_BUFFER_BIT);
 
     this->glEnable(GL_MULTISAMPLE);
+    this->glDisable(GL_CULL_FACE);
     this->glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     this->mainShader.bind();
