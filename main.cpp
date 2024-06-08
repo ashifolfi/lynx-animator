@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include <QSettings>
 #include <QStyleFactory>
 
 int main(int argc, char *argv[])
@@ -12,6 +13,10 @@ int main(int argc, char *argv[])
     QApplication::setStyle(QStyleFactory::create("Fusion"));
     QTranslator translator;
 
+    std::unique_ptr<QSettings> options;
+    auto configPath = QApplication::applicationDirPath() + "/config.ini";
+    options = std::make_unique<QSettings>(configPath, QSettings::Format::IniFormat);
+
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
         const QString baseName = "LynxAnimator_" + QLocale(locale).name();
@@ -20,7 +25,8 @@ int main(int argc, char *argv[])
             break;
         }
     }
+
     MainWindow w;
-    w.show();
+    w.showMaximized();
     return a.exec();
 }
