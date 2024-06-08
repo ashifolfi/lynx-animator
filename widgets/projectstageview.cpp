@@ -31,16 +31,16 @@ void ProjectStageView::initializeGL()
     float stageHeightH = (project->stageHeight / 2) / CANVAS_SCALE;
 
     QList<StageVertex> stageVerts = {
-        StageVertex(QVector3D(-stageWidthH, -stageHeightH, 0), QVector3D(1, 0, 0), QVector2D(0, 0)),
-        StageVertex(QVector3D( stageWidthH, -stageHeightH, 0), QVector3D(0, 1, 0), QVector2D(1, 0)),
-        StageVertex(QVector3D( stageWidthH,  stageHeightH, 0), QVector3D(0, 0, 1), QVector2D(1, 1)),
-        StageVertex(QVector3D(-stageWidthH,  stageHeightH, 0), QVector3D(1, 1, 1), QVector2D(0, 1))
+        StageVertex(QVector3D(-stageWidthH,  stageHeightH, 0), QVector3D(1, 0, 1), QVector2D(0, 0)),
+        StageVertex(QVector3D( stageWidthH,  stageHeightH, 0), QVector3D(1, 1, 1), QVector2D(1, 0)),
+        StageVertex(QVector3D( stageWidthH, -stageHeightH, 0), QVector3D(1, 1, 1), QVector2D(1, 1)),
+        StageVertex(QVector3D(-stageWidthH, -stageHeightH, 0), QVector3D(1, 1, 1), QVector2D(0, 1))
     };
 #undef CANVAS_SCALE
 
     QList<unsigned short> indices = {
-        0, 3, 2,
-        2, 1, 0
+        0, 1, 2,
+        2, 3, 0
     };
 
     this->vertexCount = static_cast<int>(stageVerts.size());
@@ -84,20 +84,21 @@ void ProjectStageView::paintGL()
     int startWidht = this->width();
     int startHeight = this->height();
 
+    // this literally does nothing????????
     float scalarX = (float)startWidht / this->width();
     float scalarY = (float)startHeight / this->height();
 
     float zoomFactor = 1 / cameraZoom;
-    if ( zoomFactor > 10 )
+    if (zoomFactor > 10)
         zoomFactor = 10;
 
-    if ( zoomFactor < 0.00000001 )
+    if (zoomFactor < 0.00000001)
         zoomFactor = 0.00000001;
 
     float xSpan = zoomFactor;
     float ySpan = zoomFactor;
 
-    if ( aspect > 1 )
+    if (aspect > 1)
     {
         xSpan *= aspect;
     }
@@ -106,16 +107,20 @@ void ProjectStageView::paintGL()
         ySpan = xSpan / aspect;
     }
 
-    projectionMatrix.ortho( -1 * xSpan, xSpan, -1 * ySpan, ySpan, -0, 1 );
+    projectionMatrix.ortho(-1 * xSpan, xSpan, -1 * ySpan, ySpan, -0, 1);
 
     this->mainShader.setUniformValue("uMVP", projectionMatrix);
 
-    float offs = ( 0.5f / aspect );
-    QVector2D offsets = { remap( xOffset_, 0, 4096, offs * ( cameraZoom + ( 1 - scalarX ) ), -offs * ( cameraZoom + ( 1 - scalarX ) ) ), remap( yOffset_, 0, 4096, -offs * ( cameraZoom + ( 1 - scalarY ) ), offs * ( cameraZoom + ( 1 - scalarY ) ) ) };
+    float offs = (0.5f / aspect);
+    QVector2D offsets = {
+                                                // this just eqates to 0?????
+        remap(xOffset_, 0, 4096, offs * (cameraZoom + (1 - scalarX)), -offs * (cameraZoom + (1 - scalarX))),
+        remap(yOffset_, 0, 4096, -offs * (cameraZoom + (1 - scalarY)), offs * (cameraZoom + (1 - scalarY)))
+    };
 
-    int OFFSETProcessing = this->mainShader.uniformLocation( "OFFSET" );
+    int OFFSETProcessing = this->mainShader.uniformLocation("OFFSET");
 
-    this->mainShader.setUniformValue( OFFSETProcessing, offsets );
+    this->mainShader.setUniformValue(OFFSETProcessing, offsets);
 
     this->vertices.bind();
     this->ebo.bind();
