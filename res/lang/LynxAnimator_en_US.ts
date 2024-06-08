@@ -4,22 +4,22 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../../dialogs/aboutdialog.cpp" line="27"/>
+        <location filename="../../dialogs/aboutdialog.cpp" line="28"/>
         <source>Created by %1</source>
         <translation>Created by %1</translation>
     </message>
     <message>
-        <location filename="../../dialogs/aboutdialog.cpp" line="36"/>
+        <location filename="../../dialogs/aboutdialog.cpp" line="37"/>
         <source>Credits</source>
         <translation>Credits</translation>
     </message>
     <message>
-        <location filename="../../dialogs/aboutdialog.cpp" line="48"/>
+        <location filename="../../dialogs/aboutdialog.cpp" line="49"/>
         <source>Unable to load license text!</source>
         <translation>Unable to load license text!</translation>
     </message>
     <message>
-        <location filename="../../dialogs/aboutdialog.cpp" line="51"/>
+        <location filename="../../dialogs/aboutdialog.cpp" line="52"/>
         <source>License</source>
         <translation>License</translation>
     </message>
@@ -27,7 +27,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../mainwindow.cpp" line="53"/>
+        <location filename="../../mainwindow.cpp" line="74"/>
         <source>About Animator</source>
         <translation>About Animator</translation>
     </message>
@@ -73,6 +73,11 @@
     </message>
     <message>
         <location filename="../../mainwindow.cpp" line="52"/>
+        <source>&amp;Edit</source>
+        <translation>&amp;Edit</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="73"/>
         <source>&amp;Help</source>
         <translation>&amp;Help</translation>
     </message>
@@ -82,31 +87,37 @@
         <translation>Quit</translation>
     </message>
     <message>
+        <location filename="../../mainwindow.cpp" line="53"/>
         <source>Undo</source>
-        <translation type="vanished">Undo</translation>
+        <translation>Undo</translation>
     </message>
     <message>
+        <location filename="../../mainwindow.cpp" line="56"/>
         <source>Redo</source>
-        <translation type="vanished">Redo</translation>
+        <translation>Redo</translation>
     </message>
     <message>
+        <location filename="../../mainwindow.cpp" line="60"/>
         <source>Cut</source>
-        <translation type="vanished">Cut</translation>
+        <translation>Cut</translation>
     </message>
     <message>
+        <location filename="../../mainwindow.cpp" line="63"/>
         <source>Copy</source>
-        <translation type="vanished">Copy</translation>
+        <translation>Copy</translation>
     </message>
     <message>
+        <location filename="../../mainwindow.cpp" line="66"/>
         <source>Paste</source>
-        <translation type="vanished">Paste</translation>
+        <translation>Paste</translation>
     </message>
     <message>
+        <location filename="../../mainwindow.cpp" line="69"/>
         <source>Delete</source>
-        <translation type="vanished">Delete</translation>
+        <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="57"/>
+        <location filename="../../mainwindow.cpp" line="78"/>
         <source>About Qt</source>
         <translation>About Qt</translation>
     </message>

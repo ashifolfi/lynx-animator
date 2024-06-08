@@ -13,7 +13,7 @@
 #include <QtOpenGL/QOpenGLVertexArrayObject>
 #include <QtOpenGLWidgets/QtOpenGLWidgets>
 
-#include "../ProjectData.hpp"
+#include "../data/ProjectData.hpp"
 
 #pragma pack(push, 1)
 struct StageVertex

@@ -15,12 +15,12 @@ set(TS_FILES res/lang/LynxAnimator_en_US.ts)
 
 set(PROJECT_SOURCES
         main.cpp
-        res/main.qrc
-
-        ProjectData.hpp
-
         mainwindow.cpp
         mainwindow.h
+
+        res/main.qrc
+
+        data/ProjectData.hpp
 
         dialogs/aboutdialog.h
         dialogs/aboutdialog.cpp
@@ -38,6 +38,7 @@ qt_add_executable(LynxAnimator
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
+
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET LynxAnimator APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -45,6 +46,8 @@ qt_add_executable(LynxAnimator
 
 qt_add_lupdate(SOURCE_TARGETS LynxAnimator TS_FILES ${TS_FILES})
 qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+
+add_dependencies(${CMAKE_PROJECT_NAME} update_translations)
 
 target_link_libraries(LynxAnimator PRIVATE
     Qt::Widgets

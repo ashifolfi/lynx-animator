@@ -85,8 +85,8 @@ void ProjectStageView::paintGL()
     int startHeight = this->height();
 
     // this literally does nothing????????
-    float scalarX = (float)startWidht / this->width();
-    float scalarY = (float)startHeight / this->height();
+    float scalarX = (float)startWidht / (this->width() / 2);
+    float scalarY = (float)startHeight / (this->height() / 2);
 
     float zoomFactor = 1 / cameraZoom;
     if (zoomFactor > 10)

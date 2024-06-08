@@ -5,10 +5,16 @@
 #include <QTranslator>
 #include <QSettings>
 #include <QStyleFactory>
+#include <QSurfaceFormat>
 
 int main(int argc, char *argv[])
 {   
+    QSurfaceFormat format;
+    format.setSamples(4);
+    QSurfaceFormat::setDefaultFormat(format);
+
     QApplication a(argc, argv);
+
     // enforce the fusion style.
     QApplication::setStyle(QStyleFactory::create("Fusion"));
     QTranslator translator;

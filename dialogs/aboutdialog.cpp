@@ -16,6 +16,7 @@ AboutDialog::AboutDialog(QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     QLabel* projectTitle = new QLabel("Lynx Animator", this);
+    projectTitle->setAlignment(Qt::AlignHCenter);
     layout->addWidget(projectTitle);
 
     QTabWidget* categories = new QTabWidget(this);
