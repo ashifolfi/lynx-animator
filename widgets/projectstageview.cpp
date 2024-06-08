@@ -84,9 +84,8 @@ void ProjectStageView::paintGL()
     int startWidht = this->width();
     int startHeight = this->height();
 
-    // this literally does nothing????????
-    float scalarX = (float)startWidht / (this->width() / 2);
-    float scalarY = (float)startHeight / (this->height() / 2);
+    float scalarX = (float)startWidht / this->width();
+    float scalarY = (float)startHeight / this->height();
 
     float zoomFactor = 1 / cameraZoom;
     if (zoomFactor > 10)
@@ -113,7 +112,6 @@ void ProjectStageView::paintGL()
 
     float offs = (0.5f / aspect);
     QVector2D offsets = {
-                                                // this just eqates to 0?????
         remap(xOffset_, 0, 4096, offs * (cameraZoom + (1 - scalarX)), -offs * (cameraZoom + (1 - scalarX))),
         remap(yOffset_, 0, 4096, -offs * (cameraZoom + (1 - scalarY)), offs * (cameraZoom + (1 - scalarY)))
     };
