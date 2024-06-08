@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QTabWidget>
 
-#include "ProjectData.hpp"
+#include "data/ProjectData.hpp"
 
 class MainWindow : public QMainWindow
 {
