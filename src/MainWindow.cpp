@@ -33,12 +33,52 @@ void MainWindow::Update()
 {
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
-	// custom titlebar for windows
+	// custom titlebar
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 8));
 	if (ImGui::BeginMainMenuBar())
 	{
 		// we use this for dragging later
 		ImVec2 basePos = ImGui::GetCursorScreenPos();
+
+#if defined(__APPLE__)
+		// mac buttons
+		// TODO: Add hover/pressed colors and icons
+
+		const ImVec2 winBtnSize = ImVec2(16, 32);
+		ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+
+		ImGui::GetWindowDrawList()->AddCircleFilled(
+			ImVec2(ImGui::GetCursorScreenPos().x + 8, ImGui::GetCursorScreenPos().y + 16),
+			6, ImGui::GetColorU32(ImVec4(1.0f, 0.37f, 0.34f, 1.0f)), 24
+		);
+		if (ImGui::InvisibleButton("mac-titlebar-close", winBtnSize))
+		{
+			SDL_Event ev;
+			ev.type = SDL_QUIT;
+			SDL_PushEvent(&ev);
+		}
+		
+		ImGui::GetWindowDrawList()->AddCircleFilled(
+			ImVec2(ImGui::GetCursorScreenPos().x + 8, ImGui::GetCursorScreenPos().y + 16),
+			6, ImGui::GetColorU32(ImVec4(0.9f, 0.74f, 0.18f, 1.0f)), 24
+		);
+		if (ImGui::InvisibleButton("mac-titlebar-minimize", winBtnSize))
+		{
+			SDL_MinimizeWindow(SDL_GL_GetCurrentWindow());
+		}
+		
+		ImGui::GetWindowDrawList()->AddCircleFilled(
+			ImVec2(ImGui::GetCursorScreenPos().x + 8, ImGui::GetCursorScreenPos().y + 16),
+			6, ImGui::GetColorU32(ImVec4(0.15f, 0.78f, 0.25f, 1.0f)), 24
+		);
+		if (ImGui::InvisibleButton("mac-titlebar-maximize", winBtnSize))
+		{
+			SDL_MaximizeWindow(SDL_GL_GetCurrentWindow());
+		}
+		ImGui::PopFont();
+		ImGui::PopStyleVar();
+#endif
 
 		if (ImGui::BeginMenu(_("File")))
 		{
@@ -82,6 +122,8 @@ void MainWindow::Update()
 
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.5f), "No Document");
 
+		// windows and linux generally have right aligned buttons, mac code is above as mac uses left aligned
+#if defined(WIN32) || defined(_WIN32) || defined(__unix__)
 		float ButtonTotalSize = (ImGui::GetStyle().ItemSpacing.x * 3) + (58 * 3);
 		ImGui::SetCursorPosX(viewport->WorkSize.x - ButtonTotalSize - ImGui::GetStyle().WindowPadding.x);
 
@@ -104,6 +146,7 @@ void MainWindow::Update()
 		}
 		ImGui::PopFont();
 		ImGui::PopStyleVar();
+#endif
 
 		if ((ImGui::IsMouseHoveringRect(basePos, ImVec2(basePos.x + viewport->WorkSize.x, basePos.y + winBtnSize.y)) 
 			&& !ImGui::IsItemHovered()) || isDragging)
