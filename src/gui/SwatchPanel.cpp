@@ -67,9 +67,12 @@ void SwatchPanel::RenderContents()
 {
 	ImDrawList* winDraw = ImGui::GetWindowDrawList();
 
-	int MAX_COLUMN = std::floor((ImGui::GetWindowWidth() - (ImGui::GetStyle().WindowPadding.x * 2)) / SWATCH_SIZE);
+	int MAX_COLUMN = std::floor(
+		(ImGui::GetWindowWidth() - (ImGui::GetStyle().WindowPadding.x * 2)) / (SWATCH_SIZE + (ImGui::GetStyle().ItemSpacing.x))
+	);
 
 	int curCol = 0;
+	int curIdx = 0;
 	for (const xfl::SolidSwatchItem swatch : m_SwatchList)
 	{
 		// create vec4 color
@@ -85,9 +88,12 @@ void SwatchPanel::RenderContents()
 			ImVec2(ImGui::GetCursorScreenPos().x + SWATCH_SIZE, ImGui::GetCursorScreenPos().y + SWATCH_SIZE),
 			ImGui::GetColorU32(color)
 		);
-		ImGui::InvisibleButton("swatch_button", ImVec2(SWATCH_SIZE, SWATCH_SIZE));
+		if (ImGui::InvisibleButton(fmt::format("swatch_button_{}", curIdx).c_str(), ImVec2(SWATCH_SIZE, SWATCH_SIZE)))
+		{
+			printf("Pressed swatch button!");
+		}
 		
-		if (curCol < MAX_COLUMN)
+		if (curCol < MAX_COLUMN - 1)
 		{
 			ImGui::SameLine();
 			curCol++;
