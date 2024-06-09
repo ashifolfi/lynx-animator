@@ -9,3 +9,5 @@ This project uses code and libraries from the following OSS projects, and would 
 - juliettef - [IconFontCppHeaders](https://github.com/juliettef/IconFontCppHeaders)
 - SDL Community - [SDL2](https://www.libsdl.org)
 - Victor Zverovich & \{fmt\} contributors - [\{fmt\}](https://github.com/fmtlib/fmt)
+- zlib
+- rapidxml
