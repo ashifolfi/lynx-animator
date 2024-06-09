@@ -154,6 +154,7 @@ void MainWindow::Update()
 		}
 		if (ImGui::Button(ICON_FA_WINDOW_MAXIMIZE, winBtnSize))
 		{
+			// FIXME: this doesn't actually work apparently (oops)
 			SDL_MaximizeWindow(SDL_GL_GetCurrentWindow());
 		}
 		if (ImGui::Button(ICON_FA_X, winBtnSize))
