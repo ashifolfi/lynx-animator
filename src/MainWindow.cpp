@@ -226,9 +226,11 @@ void MainWindow::Update()
 	ImGui::End();
 #pragma endregion
 
-	// temp
+	// temp.
 	ImGui::ShowDemoWindow();
 
+	// DO NOT DOCK ANYTHING TO THESE PANELS, FOR SOME REASON 
+	// IT CRASHES THE ENTIRE PROGRAM AND I HAVE NO IDEA WHY.
 	for (ImGuiPanel* panel : m_Panels)
 	{
 		panel->Update();
