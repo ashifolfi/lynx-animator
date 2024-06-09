@@ -162,8 +162,8 @@ void MainWindow::Update()
 
 		auto dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, nullptr, &dockspace_id);
 
-		//ImGui::DockBuilderDockWindow(GetPanel("lynx-tools-panel")->GetFullName().c_str(), dock_id_right);
-		//ImGui::DockBuilderDockWindow(GetPanel("lynx-stage-panel")->GetFullName().c_str(), dockspace_id);
+		ImGui::DockBuilderDockWindow(GetPanel("lynx-tools-panel")->GetFullName().c_str(), dock_id_right);
+		ImGui::DockBuilderDockWindow(GetPanel("lynx-stage-panel")->GetFullName().c_str(), dockspace_id);
 
 		ImGui::DockBuilderFinish(dockspace_id);
 	}
