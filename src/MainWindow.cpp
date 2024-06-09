@@ -80,6 +80,7 @@ void MainWindow::Update()
 		ImGui::PopStyleVar();
 #endif
 
+#pragma region Menubar
 		if (ImGui::BeginMenu(_("File")))
 		{
 			LynxGui::MenuIconItem(ICON_FA_FILE, _("New Project"), "Ctrl+N");
@@ -119,6 +120,7 @@ void MainWindow::Update()
 
 			ImGui::EndMenu();
 		}
+#pragma endregion
 
 		// centered titlebar text
 		std::string titlebarText = fmt::format("{} - Lynx Animator", "No Document");
