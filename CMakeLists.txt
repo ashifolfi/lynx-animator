@@ -81,6 +81,7 @@ set(PROJECT_SOURCES
 find_package(Intl REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 add_subdirectory("thirdparty/fmt")
 
@@ -97,6 +98,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 	SDL2::SDL2
 	SDL2::SDL2main
 	fmt::fmt-header-only
+	nlohmann_json::nlohmann_json
 )
 target_include_directories(${PROJECT_NAME} PUBLIC 
 	"thirdparty/imgui_extensions"

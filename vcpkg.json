@@ -1,10 +1,11 @@
 {
-    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-    "name": "lynxanimator",
-    "version": "0.3.0",
-    "dependencies": [
-      "sdl2",
-      "gettext"
-    ],
-    "builtin-baseline": "c591ac6466a55ef0a05a3d56bb1489ca36e50102"
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "lynxanimator",
+  "version": "0.3.0",
+  "dependencies": [
+    "sdl2",
+    "gettext",
+    "nlohmann-json"
+  ],
+  "builtin-baseline": "c591ac6466a55ef0a05a3d56bb1489ca36e50102"
 }
