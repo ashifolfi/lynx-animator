@@ -120,7 +120,11 @@ void MainWindow::Update()
 			ImGui::EndMenu();
 		}
 
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.5f), "No Document");
+		// centered titlebar text
+		std::string titlebarText = fmt::format("{} - Lynx Animator", "No Document");
+		float curPos = ImGui::GetCursorPosX();
+		ImGui::SetCursorPosX(((viewport->WorkSize.x - curPos) / 2) - (ImGui::CalcTextSize(titlebarText.c_str()).x / 2));
+		ImGui::Text(titlebarText.c_str());
 
 		// windows and linux generally have right aligned buttons, mac code is above as mac uses left aligned
 #if defined(WIN32) || defined(_WIN32) || defined(__unix__)
@@ -148,8 +152,14 @@ void MainWindow::Update()
 		ImGui::PopStyleVar();
 #endif
 
-		if ((ImGui::IsMouseHoveringRect(basePos, ImVec2(basePos.x + viewport->WorkSize.x, basePos.y + winBtnSize.y)) 
-			&& !ImGui::IsItemHovered()) || isDragging)
+		ImGui::SetCursorPosX(curPos);
+		// agh
+#if defined(WIN32) || defined(_WIN32) || defined(__unix__)
+		ImGui::InvisibleButton("titlebar_mover", ImVec2(viewport->WorkSize.x - curPos - ButtonTotalSize, basePos.y + 32));
+#else
+		ImGui::InvisibleButton("titlebar_mover", ImVec2(viewport->WorkSize.x - curPos, basePos.y + 32));
+#endif
+		if ((ImGui::IsMouseDown(ImGuiMouseButton_Left) && ImGui::IsItemActive()) || isDragging)
 		{
 			// check for drag and move window if so
 			if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
