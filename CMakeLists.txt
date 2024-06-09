@@ -1,75 +1,119 @@
-cmake_minimum_required(VERSION 3.5)
+﻿# CMakeList.txt : CMake project for lynxanimator-imgui, include source and define
+# project specific logic here.
+#
+cmake_minimum_required (VERSION 3.8)
 
-project(LynxAnimator VERSION 0.1 LANGUAGES CXX)
+# Enable Hot Reload for MSVC compilers if supported.
+if (POLICY CMP0141)
+  cmake_policy(SET CMP0141 NEW)
+  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+endif()
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+project(
+	"LynxAnimator"
+	DESCRIPTION "An open source vector animation tool inspired by Adobe Flash"
+	VERSION "0.3.0"
+	HOMEPAGE_URL "https://github.com/ashifolfi/lynx-animator"
+)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets LinguistTools)
+# Set up variables
+set(PROJECT_NAME_PRETTY "Lynx Animator" CACHE STRING "" FORCE)
+# If the tweak number exists, version is a beta or release candidate
+if(PROJECT_VERSION_TWEAK STREQUAL "")
+    # Proper release version
+    set(PROJECT_VERSION_PRETTY "${PROJECT_VERSION}" CACHE STRING "" FORCE)
+elseif(PROJECT_VERSION_TWEAK MATCHES "^99+$")
+    # Release candidate, number of 9s controls the RC number
+    string(LENGTH ${PROJECT_VERSION_TWEAK} PROJECT_VERSION_TWEAK_LENGTH)
+    math(EXPR PROJECT_VERSION_TWEAK_LENGTH "${PROJECT_VERSION_TWEAK_LENGTH} - 1" OUTPUT_FORMAT DECIMAL)
+    set(PROJECT_VERSION_PRETTY "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}-rc.${PROJECT_VERSION_TWEAK_LENGTH}" CACHE STRING "" FORCE)
+else()
+    # Beta version
+    set(PROJECT_VERSION_PRETTY "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}-beta.${PROJECT_VERSION_TWEAK}" CACHE STRING "" FORCE)
+endif()
+set(PROJECT_ORGANIZATION_NAME "ashi/eden" CACHE STRING "" FORCE)
 
-set(TS_FILES res/lang/LynxAnimator_en_US.ts)
+set(SRCDIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+
+configure_file("${SRCDIR}/version.h.in" "${SRCDIR}/version.h")
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
+	"${SRCDIR}/main.cpp"
+	"${SRCDIR}/intl.h"
+	"${SRCDIR}/version.h"
 
-        res/main.qrc
+	"${SRCDIR}/MainWindow.hpp"
+	"${SRCDIR}/MainWindow.cpp"
 
-        data/ProjectData.hpp
+	"${SRCDIR}/data/ProjectData.hpp"
 
-        dialogs/aboutdialog.h
-        dialogs/aboutdialog.cpp
-        dialogs/newprojectdialog.h
-        dialogs/newprojectdialog.cpp
-        dialogs/newprojectdialog.ui
+	"${SRCDIR}/gui/WidgetHelpers.hpp"
+	"${SRCDIR}/gui/WidgetHelpers.cpp"
+	"${SRCDIR}/gui/ImGuiPanel.hpp"
+	"${SRCDIR}/gui/ImGuiPanel.cpp"
+	"${SRCDIR}/gui/AboutPanel.hpp"
+	"${SRCDIR}/gui/AboutPanel.cpp"
+	"${SRCDIR}/gui/StagePanel.hpp"
+	"${SRCDIR}/gui/StagePanel.cpp"
+	"${SRCDIR}/gui/DockingTestPanel.hpp"
+	"${SRCDIR}/gui/DockingTestPanel.cpp"
 
-        widgets/projectstageview.h
-        widgets/projectstageview.cpp
+	# ImGui
+	"thirdparty/imgui/imgui.cpp"
+	"thirdparty/imgui/imgui.h"
+	"thirdparty/imgui/imgui_internal.h"
+	"thirdparty/imgui/imgui_demo.cpp"
+	"thirdparty/imgui/imgui_draw.cpp"
+	"thirdparty/imgui/imgui_tables.cpp"
+	"thirdparty/imgui/imgui_widgets.cpp"
+	"thirdparty/imgui/backends/imgui_impl_sdl2.cpp"
+	"thirdparty/imgui/backends/imgui_impl_sdl2.h"
+	"thirdparty/imgui/backends/imgui_impl_opengl3.cpp"
+	"thirdparty/imgui/backends/imgui_impl_opengl3.h"
 
-        ${TS_FILES}
+	# custom imgui extentions
+	"thirdparty/imgui_extensions/imgui_markdown.h"
+	"thirdparty/imgui_extensions/IconsFontAwesome6.h"
 )
 
-qt_add_executable(LynxAnimator
-    MANUAL_FINALIZATION
-    ${PROJECT_SOURCES}
+find_package(Intl REQUIRED)
+find_package(SDL2 CONFIG REQUIRED)
+find_package(OpenGL REQUIRED)
+
+add_subdirectory("thirdparty/fmt")
+
+# Add source to this project's executable.
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
+endif()
+
+target_link_libraries(${PROJECT_NAME} PUBLIC
+	${Intl_LIBRARY}
+	${OPENGL_LIBRARIES}
+	SDL2::SDL2
+	SDL2::SDL2main
+	fmt::fmt-header-only
+)
+target_include_directories(${PROJECT_NAME} PUBLIC 
+	"thirdparty/imgui_extensions"
+	"thirdparty/imgui"
+	"thirdparty/fmt/include"
+	${OPENGL_INCLUDE_DIRS}
+	${Intl_INCLUDE_DIRS}
+	${SDL2_INCLUDE_DIRS}
 )
 
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET LynxAnimator APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+# copy these next to the executable
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/credits.md" "${CMAKE_BINARY_DIR}/credits.md" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/LICENSE"    "${CMAKE_BINARY_DIR}/license.txt"COPYONLY)
 
-qt_add_lupdate(SOURCE_TARGETS LynxAnimator TS_FILES ${TS_FILES})
-qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+# Copy resources
+add_custom_target(CopyResources
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_BINARY_DIR}/)
+add_dependencies(${PROJECT_NAME} CopyResources)
 
-add_dependencies(${CMAKE_PROJECT_NAME} update_translations)
-
-target_link_libraries(LynxAnimator PRIVATE
-    Qt::Widgets
-    Qt::OpenGL
-    Qt::OpenGLWidgets)
-
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-set_target_properties(LynxAnimator PROPERTIES
-    ${BUNDLE_ID_OPTION}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
-)
-
-include(GNUInstallDirs)
-install(TARGETS LynxAnimator
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-qt_finalize_executable(LynxAnimator)
+# TODO: Add tests and install targets if needed.
