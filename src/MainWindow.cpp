@@ -31,6 +31,7 @@ void MainWindow::Update()
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
 	// custom titlebar for windows
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 8));
 	if (ImGui::BeginMainMenuBar())
 	{
 
@@ -74,27 +75,34 @@ void MainWindow::Update()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::Button(ICON_FA_WINDOW_MINIMIZE, ImVec2(60, 32)))
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.5f), "No Document");
+
+		float ButtonTotalSize = (ImGui::GetStyle().ItemSpacing.x * 3) + (58 * 3);
+		ImGui::SetCursorPosX(viewport->WorkSize.x - ButtonTotalSize - ImGui::GetStyle().WindowPadding.x);
+
+		const ImVec2 winBtnSize = ImVec2(58, 32);
+		ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+		if (ImGui::Button(ICON_FA_WINDOW_MINIMIZE, winBtnSize))
 		{
 			SDL_MinimizeWindow(SDL_GL_GetCurrentWindow());
 		}
-		if (ImGui::Button(ICON_FA_WINDOW_MAXIMIZE, ImVec2(60, 32)))
+		if (ImGui::Button(ICON_FA_WINDOW_MAXIMIZE, winBtnSize))
 		{
 			SDL_MaximizeWindow(SDL_GL_GetCurrentWindow());
 		}
-		if (ImGui::Button(ICON_FA_X, ImVec2(60, 32)))
+		if (ImGui::Button(ICON_FA_X, winBtnSize))
 		{
 			SDL_Event ev;
 			ev.type = SDL_QUIT;
 			SDL_PushEvent(&ev);
 		}
-
-		std::string verString = fmt::format("Lynx Animator v{}", PROJECT_VERSION_PRETTY);
-		ImGui::SetCursorPosX(viewport->WorkSize.x - ImGui::CalcTextSize(verString.c_str()).x - ImGui::GetStyle().WindowPadding.x);
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.5f), verString.c_str());
+		ImGui::PopFont();
+		ImGui::PopStyleVar();
 
 		ImGui::EndMainMenuBar();
 	}
+	ImGui::PopStyleVar();
 
 #pragma region Dockspace/Dockbuilder
 	// display our dockspace window
@@ -130,8 +138,8 @@ void MainWindow::Update()
 
 		auto dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, nullptr, &dockspace_id);
 
-		ImGui::DockBuilderDockWindow(GetPanel("lynx-tools-panel")->GetFullName().c_str(), dock_id_right);
-		ImGui::DockBuilderDockWindow(GetPanel("lynx-stage-panel")->GetFullName().c_str(), dockspace_id);
+		//ImGui::DockBuilderDockWindow(GetPanel("lynx-tools-panel")->GetFullName().c_str(), dock_id_right);
+		//ImGui::DockBuilderDockWindow(GetPanel("lynx-stage-panel")->GetFullName().c_str(), dockspace_id);
 
 		ImGui::DockBuilderFinish(dockspace_id);
 	}
