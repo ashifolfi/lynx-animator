@@ -9,6 +9,7 @@ ImGuiPanel::ImGuiPanel(std::string title_)
 	m_Flags = 0;
 	m_Size = ImVec2(200, 200);
 	m_Pos = ImVec2(0, 0);
+	m_CanClose = true;
 }
 
 void ImGuiPanel::Update()
@@ -24,7 +25,7 @@ void ImGuiPanel::Update()
 	ImGui::SetNextWindowSize(m_Size, ImGuiCond_FirstUseEver);
 
 	// todo: we could probably use fmt for this
-	if (ImGui::Begin((m_Title + "##" + m_StrId).c_str(), &Visible, m_Flags))
+	if (ImGui::Begin((m_Title + "##" + m_StrId).c_str(), m_CanClose ? &Visible : nullptr, m_Flags))
 	{
 		RenderContents();
 

@@ -5,7 +5,8 @@
   "dependencies": [
     "sdl2",
     "gettext",
-    "nlohmann-json"
+    "nlohmann-json",
+    "zlib"
   ],
   "builtin-baseline": "c591ac6466a55ef0a05a3d56bb1489ca36e50102"
 }

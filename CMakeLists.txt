@@ -55,8 +55,8 @@ set(PROJECT_SOURCES
 	"${SRCDIR}/gui/ImGuiPanel.cpp"
 	"${SRCDIR}/gui/AboutPanel.hpp"
 	"${SRCDIR}/gui/AboutPanel.cpp"
-	"${SRCDIR}/gui/StagePanel.hpp"
-	"${SRCDIR}/gui/StagePanel.cpp"
+	"${SRCDIR}/gui/NewProjectPanel.hpp"
+	"${SRCDIR}/gui/NewProjectPanel.cpp"
 	"${SRCDIR}/gui/ToolsPanel.hpp"
 	"${SRCDIR}/gui/ToolsPanel.cpp"
 

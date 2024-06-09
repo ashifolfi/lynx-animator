@@ -2,7 +2,7 @@
 
 #include "gui/AboutPanel.hpp"
 #include "gui/ToolsPanel.hpp"
-#include "gui/StagePanel.hpp"
+#include "gui/NewProjectPanel.hpp"
 #include "gui/WidgetHelpers.hpp"
 
 #include "intl.h"
@@ -23,7 +23,7 @@ MainWindow::MainWindow()
 	// add our default panels
 	AddPanel(new AboutPanel());
 	AddPanel(new ToolsPanel());
-	AddPanel(new StagePanel());
+	AddPanel(new NewProjectPanel());
 }
 
 // used to prevent exiting the rect from stopping a drag (annoying)
@@ -58,7 +58,7 @@ void MainWindow::Update()
 			ev.type = SDL_QUIT;
 			SDL_PushEvent(&ev);
 		}
-		
+
 		ImGui::GetWindowDrawList()->AddCircleFilled(
 			ImVec2(ImGui::GetCursorScreenPos().x + 8, ImGui::GetCursorScreenPos().y + 16),
 			6, ImGui::GetColorU32(ImVec4(0.9f, 0.74f, 0.18f, 1.0f)), 24
@@ -67,7 +67,7 @@ void MainWindow::Update()
 		{
 			SDL_MinimizeWindow(SDL_GL_GetCurrentWindow());
 		}
-		
+
 		ImGui::GetWindowDrawList()->AddCircleFilled(
 			ImVec2(ImGui::GetCursorScreenPos().x + 8, ImGui::GetCursorScreenPos().y + 16),
 			6, ImGui::GetColorU32(ImVec4(0.15f, 0.78f, 0.25f, 1.0f)), 24
@@ -85,16 +85,7 @@ void MainWindow::Update()
 		{
 			if (LynxGui::MenuIconItem(ICON_FA_FILE, _("New Project"), "Ctrl+N"))
 			{
-				ProjectData demoProject{
-					1,
-					"Demo Project",
-					"Ashi",
-					640,
-					480
-				};
-
-				m_Projects.push_back(demoProject);
-				m_CurrentProject = &m_Projects.back();
+				GetPanel("new-lynx-project-dialog")->Visible = true;
 			}
 			LynxGui::MenuIconItem(ICON_FA_FOLDER, _("Open Project"), "Ctrl+O");
 			ImGui::Separator();
@@ -104,7 +95,12 @@ void MainWindow::Update()
 			LynxGui::MenuIconItem(ICON_FA_XMARK, _("Close Project"), "Ctrl+W");
 			LynxGui::MenuIconItem(ICON_FA_XMARK, _("Close All Projects"));
 			ImGui::Separator();
-			LynxGui::MenuIconItem(ICON_FA_XMARK, _("Quit"), "Ctrl+Q");
+			if (LynxGui::MenuIconItem(ICON_FA_XMARK, _("Quit"), "Ctrl+Q"))
+			{
+				SDL_Event ev;
+				ev.type = SDL_QUIT;
+				SDL_PushEvent(&ev);
+			}
 			ImGui::EndMenu();
 		}
 
@@ -198,7 +194,7 @@ void MainWindow::Update()
 
 #pragma region Dockspace/Dockbuilder
 	// display our dockspace window
-	ImGuiWindowFlags window_flags = 
+	ImGuiWindowFlags window_flags =
 		ImGuiWindowFlags_NoDocking
 		| ImGuiWindowFlags_NoTitleBar
 		| ImGuiWindowFlags_NoCollapse
@@ -231,13 +227,48 @@ void MainWindow::Update()
 		auto dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, nullptr, &dockspace_id);
 
 		ImGui::DockBuilderDockWindow(GetPanel("lynx-tools-panel")->GetFullName().c_str(), dock_id_right);
-		ImGui::DockBuilderDockWindow(GetPanel("lynx-stage-panel")->GetFullName().c_str(), dockspace_id);
+		ImGui::DockBuilderDockWindow("Documents##lynx-stage-doc-view", dockspace_id);
 
 		ImGui::DockBuilderFinish(dockspace_id);
 	}
 
 	ImGui::End();
 #pragma endregion
+
+	if (ImGui::Begin("Documents##lynx-stage-doc-view", nullptr, ImGuiWindowFlags_NoDecoration))
+	{
+		if (ImGui::BeginTabBar("lynx-projects-tab-bar"))
+		{
+			for (int i = 0; i < m_Projects.size(); i++)
+			{
+				if (ImGui::BeginTabItem(fmt::format("{}##tab_index_{}", m_Projects[i].Title, i).c_str()))
+				{
+					m_CurrentProject = &m_Projects[i];
+					m_CurrentProjectIndex = i;
+					ImGui::EndTabItem();
+				}
+			}
+
+			ImGui::EndTabBar();
+		}
+
+		if (m_CurrentProject == nullptr)
+		{
+			// return early if no project is loaded
+			ImGui::Text(_("No project loaded"));
+		}
+		else
+		{
+			if (ImGui::IsWindowFocused())
+			{
+				StageControls();
+			}
+
+			RenderStage();
+		}
+
+		ImGui::End();
+	}
 
 	// temp.
 	ImGui::ShowDemoWindow();
@@ -248,6 +279,59 @@ void MainWindow::Update()
 	{
 		panel->Update();
 	}
+}
+
+void MainWindow::StageControls()
+{
+	if (ImGui::IsKeyDown(ImGuiKey_Space))
+	{
+		ImGui::SetNextFrameWantCaptureMouse(true);
+
+		// pan the camera
+		cameraPos.x -= ImGui::GetIO().MouseDelta.x;
+		cameraPos.y -= ImGui::GetIO().MouseDelta.y;
+	}
+	else
+	{
+		ImGui::SetNextFrameWantCaptureMouse(false);
+	}
+
+	if (ImGui::GetIO().MouseWheel && ImGui::IsWindowHovered())
+	{
+		// change the zoom amount based on the direction
+		if (ImGui::GetIO().MouseWheel > 0)
+		{
+			cameraZoom += 0.1f;
+		}
+		else if (ImGui::GetIO().MouseWheel < 0)
+		{
+			cameraZoom -= 0.1f;
+		}
+		cameraZoom = std::clamp(cameraZoom, 0.01f, 4.0f);
+	}
+}
+
+#define VEC2OFF(value) ImVec2((basePos.x + (value.x * cameraZoom)) - cameraPos.x, (basePos.y + (value.y * cameraZoom)) - cameraPos.y)
+
+void MainWindow::RenderStage()
+{
+	ImDrawList* winDraw = ImGui::GetWindowDrawList();
+
+	ImVec2 canvasSize = ImVec2(m_CurrentProject->stageWidth, m_CurrentProject->stageHeight);
+
+	// base coords at center of the window, offset by camera position
+	ImVec2 basePos = ImVec2(
+		(ImGui::GetCursorScreenPos().x + (ImGui::GetWindowWidth() / 2)),
+		(ImGui::GetCursorScreenPos().y + (ImGui::GetWindowHeight() / 2))
+	);
+
+	// draw our canvas
+	winDraw->AddRectFilled(VEC2OFF(ImVec2(0, 0)), VEC2OFF(canvasSize),
+		ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f))
+	);
+	winDraw->AddRect(VEC2OFF(ImVec2(0, 0)), VEC2OFF(canvasSize),
+		ImGui::GetColorU32(ImVec4(0.0f, 0.0f, 0.0f, 1.0f))
+	);
 }
 
 void MainWindow::AddPanel(ImGuiPanel* panel)
@@ -273,6 +357,12 @@ ImGuiPanel* MainWindow::GetPanel(std::string id)
 
 	// return nullptr, no panel of that id exists
 	return nullptr;
+}
+
+void lynxanim::MainWindow::AddProject(ProjectData project)
+{
+	m_Projects.push_back(project);
+	m_CurrentProject = &m_Projects.back();
 }
 
 ProjectData* lynxanim::MainWindow::GetCurrentProject()

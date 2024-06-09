@@ -23,6 +23,7 @@ protected:
 
 	std::string m_StrId;
 	std::string m_Title;
+	bool m_CanClose;
 	ImGuiWindowFlags m_Flags;
 	ImVec2 m_Size;
 	ImVec2 m_Pos;
