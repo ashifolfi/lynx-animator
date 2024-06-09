@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Lynx Animator\n"
-"POT-Creation-Date: 2024-06-08 17:29-0400\n"
-"PO-Revision-Date: 2024-06-08 17:29-0400\n"
+"POT-Creation-Date: 2024-06-08 21:04-0400\n"
+"PO-Revision-Date: 2024-06-08 21:04-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -14,75 +14,75 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: MainWindow.cpp:28
+#: MainWindow.cpp:35
 msgid "File"
 msgstr "File"
 
-#: MainWindow.cpp:30
+#: MainWindow.cpp:37
 msgid "New Project"
 msgstr "New Project"
 
-#: MainWindow.cpp:31
+#: MainWindow.cpp:38
 msgid "Open Project"
 msgstr "Open Project"
 
-#: MainWindow.cpp:33
+#: MainWindow.cpp:40
 msgid "Save Project"
 msgstr "Save Project"
 
-#: MainWindow.cpp:34
+#: MainWindow.cpp:41
 msgid "Save Project As"
 msgstr "Save Project As"
 
-#: MainWindow.cpp:36
+#: MainWindow.cpp:43
 msgid "Close Project"
 msgstr "Close Project"
 
-#: MainWindow.cpp:37
+#: MainWindow.cpp:44
 msgid "Close All Projects"
 msgstr "Close All Projects"
 
-#: MainWindow.cpp:39
+#: MainWindow.cpp:46
 msgid "Quit"
 msgstr "Quit"
 
-#: MainWindow.cpp:43
+#: MainWindow.cpp:50
 msgid "Edit"
 msgstr "Edit"
 
-#: MainWindow.cpp:45
+#: MainWindow.cpp:52
 msgid "Undo"
 msgstr "Undo"
 
-#: MainWindow.cpp:46
+#: MainWindow.cpp:53
 msgid "Redo"
 msgstr "Redo"
 
-#: MainWindow.cpp:48
+#: MainWindow.cpp:55
 msgid "Cut"
 msgstr "Cut"
 
-#: MainWindow.cpp:49
+#: MainWindow.cpp:56
 msgid "Copy"
 msgstr "Copy"
 
-#: MainWindow.cpp:50
+#: MainWindow.cpp:57
 msgid "Paste"
 msgstr "Paste"
 
-#: MainWindow.cpp:51
+#: MainWindow.cpp:58
 msgid "Delete"
 msgstr "Delete"
 
-#: MainWindow.cpp:56
+#: MainWindow.cpp:63
 msgid "Help"
 msgstr "Help"
 
-#: MainWindow.cpp:58 gui/AboutPanel.cpp:14
+#: MainWindow.cpp:65 gui/AboutPanel.cpp:14
 msgid "About Lynx Animator"
 msgstr "About Lynx Animator"
 
-#: MainWindow.cpp:63
+#: MainWindow.cpp:70
 msgid "View Documentation"
 msgstr "View Documentation"
 
@@ -100,6 +100,30 @@ msgstr "License"
 msgid "Close"
 msgstr "Close"
 
-#: main.cpp:40
+#: gui/StagePanel.cpp:11
+msgid "Stage"
+msgstr "Stage"
+
+#: gui/ToolsPanel.cpp:12
+msgid "Tools"
+msgstr "Tools"
+
+#: gui/ToolsPanel.cpp:66
+msgid "Object Select"
+msgstr "Object Select"
+
+#: gui/ToolsPanel.cpp:70
+msgid "Text"
+msgstr "Text"
+
+#: gui/ToolsPanel.cpp:74
+msgid "Freehand"
+msgstr "Freehand"
+
+#: gui/ToolsPanel.cpp:78
+msgid "Polygon"
+msgstr "Polygon"
+
+#: main.cpp:45
 msgid "Lynx Animator"
 msgstr "Lynx Animator"
