@@ -26,6 +26,9 @@ MainWindow::MainWindow()
 	AddPanel(new StagePanel());
 }
 
+// used to prevent exiting the rect from stopping a drag (annoying)
+static bool isDragging = false;
+
 void MainWindow::Update()
 {
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -34,6 +37,8 @@ void MainWindow::Update()
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 8));
 	if (ImGui::BeginMainMenuBar())
 	{
+		// we use this for dragging later
+		ImVec2 basePos = ImGui::GetCursorScreenPos();
 
 		if (ImGui::BeginMenu(_("File")))
 		{
@@ -99,6 +104,25 @@ void MainWindow::Update()
 		}
 		ImGui::PopFont();
 		ImGui::PopStyleVar();
+
+		if ((ImGui::IsMouseHoveringRect(basePos, ImVec2(basePos.x + viewport->WorkSize.x, basePos.y + winBtnSize.y)) 
+			&& !ImGui::IsItemHovered()) || isDragging)
+		{
+			// check for drag and move window if so
+			if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
+			{
+				isDragging = true;
+				SDL_Window* curWin = SDL_GL_GetCurrentWindow();
+
+				int winX, winY;
+				SDL_GetWindowPosition(curWin, &winX, &winY);
+				SDL_SetWindowPosition(curWin, winX + ImGui::GetIO().MouseDelta.x, winY + ImGui::GetIO().MouseDelta.y);
+			}
+			else
+			{
+				isDragging = false;
+			}
+		}
 
 		ImGui::EndMainMenuBar();
 	}
