@@ -1,7 +1,7 @@
 #include "MainWindow.hpp"
 
 #include "gui/AboutPanel.hpp"
-#include "gui/DockingTestPanel.hpp"
+#include "gui/ToolsPanel.hpp"
 #include "gui/StagePanel.hpp"
 #include "gui/WidgetHelpers.hpp"
 
@@ -21,7 +21,7 @@ MainWindow::MainWindow()
 
 	// add our default panels
 	AddPanel(new AboutPanel());
-	AddPanel(new DockingTestPanel());
+	AddPanel(new ToolsPanel());
 	AddPanel(new StagePanel());
 }
 
@@ -113,7 +113,7 @@ void MainWindow::Update()
 
 		auto dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, nullptr, &dockspace_id);
 
-		ImGui::DockBuilderDockWindow(GetPanel("docking-test-panel")->GetFullName().c_str(), dock_id_right);
+		ImGui::DockBuilderDockWindow(GetPanel("lynx-tools-panel")->GetFullName().c_str(), dock_id_right);
 		ImGui::DockBuilderDockWindow(GetPanel("lynx-stage-panel")->GetFullName().c_str(), dockspace_id);
 
 		ImGui::DockBuilderFinish(dockspace_id);

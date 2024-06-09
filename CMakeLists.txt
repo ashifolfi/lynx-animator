@@ -57,8 +57,8 @@ set(PROJECT_SOURCES
 	"${SRCDIR}/gui/AboutPanel.cpp"
 	"${SRCDIR}/gui/StagePanel.hpp"
 	"${SRCDIR}/gui/StagePanel.cpp"
-	"${SRCDIR}/gui/DockingTestPanel.hpp"
-	"${SRCDIR}/gui/DockingTestPanel.cpp"
+	"${SRCDIR}/gui/ToolsPanel.hpp"
+	"${SRCDIR}/gui/ToolsPanel.cpp"
 
 	# ImGui
 	"thirdparty/imgui/imgui.cpp"

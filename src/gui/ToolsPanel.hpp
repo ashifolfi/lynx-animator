@@ -5,13 +5,15 @@
 namespace lynxanim
 {
 
-class DockingTestPanel : public ImGuiPanel
+class ToolsPanel : public ImGuiPanel
 {
 public:
-	DockingTestPanel();
+	ToolsPanel();
 
 protected:
 	void RenderContents() override;
+
+	float m_IconScale;
 };
 
 }
