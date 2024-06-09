@@ -25,10 +25,6 @@ void LinkCallback(ImGui::MarkdownLinkCallbackData data_)
 
 inline ImGui::MarkdownImageData ImageCallback(ImGui::MarkdownLinkCallbackData data_);
 
-static ImFont* H1 = NULL;
-static ImFont* H2 = NULL;
-static ImFont* H3 = NULL;
-
 static ImGui::MarkdownConfig mdConfig;
 
 inline ImGui::MarkdownImageData ImageCallback(ImGui::MarkdownLinkCallbackData data_)
@@ -57,14 +53,6 @@ inline ImGui::MarkdownImageData ImageCallback(ImGui::MarkdownLinkCallbackData da
 // initializes markdown with a static config and loads our default global font in multiple sizes
 void LynxGui::InitMarkdown(float fontScale)
 {
-    ImGuiIO& io = ImGui::GetIO();
-
-    // todo: get a bold font for this
-    // Bold headings H2 and H3
-    H2 = io.Fonts->AddFontFromFileTTF("fonts/DroidSans.ttf", fontScale * 1.1f);
-    H3 = mdConfig.headingFormats[1].font;
-    // bold heading H1
-    H1 = io.Fonts->AddFontFromFileTTF("fonts/DroidSans.ttf", fontScale * 2.0f);
 }
 
 void LynxGui::Markdown(std::string text)
@@ -73,9 +61,9 @@ void LynxGui::Markdown(std::string text)
     mdConfig.tooltipCallback = NULL;
     mdConfig.imageCallback = ImageCallback;
     mdConfig.linkIcon = ICON_FA_LINK;
-    mdConfig.headingFormats[0] = { H1, true };
-    mdConfig.headingFormats[1] = { H2, true };
-    mdConfig.headingFormats[2] = { H3, false };
+    mdConfig.headingFormats[0] = { ImGui::GetIO().Fonts->Fonts[2], true};
+    mdConfig.headingFormats[1] = { ImGui::GetIO().Fonts->Fonts[1], true };
+    mdConfig.headingFormats[2] = { ImGui::GetIO().Fonts->Fonts[1], false };
     mdConfig.userData = NULL;
     // we don't do anything special at this time
     mdConfig.formatCallback = ImGui::defaultMarkdownFormatCallback;

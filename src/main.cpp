@@ -40,7 +40,7 @@ int main(int, char**)
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-    
+
     SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
     SDL_Window* window = SDL_CreateWindow(_("Lynx Animator"), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
     if (window == nullptr)
@@ -57,33 +57,50 @@ int main(int, char**)
     SDL_GLContext gl_context = SDL_GL_CreateContext(window);
     SDL_GL_MakeCurrent(window, gl_context);
     SDL_GL_SetSwapInterval(1); // Enable vsync
-    
+
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard    // Enable Keyboard Controls
-		| ImGuiConfigFlags_NavEnableGamepad                 // Enable Gamepad Controls
-		| ImGuiConfigFlags_DockingEnable                    // Enable Docking
-		| ImGuiConfigFlags_ViewportsEnable;                 // Enable Multi-Viewport / Platform Windows
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard    // Enable Keyboard Controls
+        | ImGuiConfigFlags_NavEnableGamepad                 // Enable Gamepad Controls
+        | ImGuiConfigFlags_DockingEnable                    // Enable Docking
+        | ImGuiConfigFlags_ViewportsEnable;                 // Enable Multi-Viewport / Platform Windows
     io.ConfigWindowsMoveFromTitleBarOnly = true;
 
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	ImGui::GetStyle().ScaleAllSizes((ddpi / DEFAULT_DPI));
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    //ImGui::GetStyle().ScaleAllSizes((ddpi / DEFAULT_DPI));
 
-	// add fonts
-	float baseFontSize = 14.0f * (ddpi / DEFAULT_DPI); // 13.0f is the size of the default font. Change to the font size you use.
-    io.Fonts->AddFontFromFileTTF("fonts/DroidSans.ttf", baseFontSize);
+    // add fonts
+    // we store several variations, these are all in a consistent order (unless something went very fucking wrong)
+    /*
+    * All variations:
+    * 16 - 0
+    * 24 - 1
+    * 32 - 2
+    * 48 - 3
+    * 64 - 4
+    */
 
-    float iconFontSize = baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
-    // merge in icons from Font Awesome
-    static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
-    ImFontConfig icons_config;
-    icons_config.MergeMode = true;
-    icons_config.PixelSnapH = true;
-    icons_config.GlyphMinAdvanceX = iconFontSize;
-    io.Fonts->AddFontFromFileTTF("fonts/fa-solid-900.ttf", iconFontSize, &icons_config, icons_ranges);
+       // don't fw the dpi for now.
+    // todo: figure out a proper way to scale *EVERYTHING* we need to according to the dpi cleanly without affecting the canvas
+    float baseFontSize = 16.0f;// *(ddpi / DEFAULT_DPI); // 13.0f is the size of the default font. Change to the font size you use.
+
+    for (int i = 0; i < 8; i += 2)
+    {
+        float fontSize = baseFontSize + (8 * i);
+        io.Fonts->AddFontFromFileTTF("fonts/DroidSans.ttf", fontSize);
+
+        float iconFontSize = fontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
+        // merge in icons from Font Awesome
+        static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
+        ImFontConfig icons_config;
+        icons_config.MergeMode = true;
+        icons_config.PixelSnapH = true;
+        icons_config.GlyphMinAdvanceX = iconFontSize;
+        io.Fonts->AddFontFromFileTTF("fonts/fa-solid-900.ttf", iconFontSize, &icons_config, icons_ranges);
+    }
     // use FONT_ICON_FILE_NAME_FAR if you want regular instead of solid
 
     // Setup Platform/Renderer backends

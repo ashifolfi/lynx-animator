@@ -33,7 +33,6 @@ void MainWindow::Update()
 	// custom titlebar for windows
 	if (ImGui::BeginMainMenuBar())
 	{
-		ImGui::Button("W");
 
 		if (ImGui::BeginMenu(_("File")))
 		{
@@ -75,15 +74,15 @@ void MainWindow::Update()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::Button("MIN"))
+		if (ImGui::Button(ICON_FA_WINDOW_MINIMIZE, ImVec2(60, 32)))
 		{
 			SDL_MinimizeWindow(SDL_GL_GetCurrentWindow());
 		}
-		if (ImGui::Button("MAX"))
+		if (ImGui::Button(ICON_FA_WINDOW_MAXIMIZE, ImVec2(60, 32)))
 		{
 			SDL_MaximizeWindow(SDL_GL_GetCurrentWindow());
 		}
-		if (ImGui::Button("X"))
+		if (ImGui::Button(ICON_FA_X, ImVec2(60, 32)))
 		{
 			SDL_Event ev;
 			ev.type = SDL_QUIT;
