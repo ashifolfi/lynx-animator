@@ -10,6 +10,7 @@
 #include <fmt/format.h>
 #include <IconsFontAwesome6.h>
 #include "version.h"
+#include <SDL.h>
 
 using namespace lynxanim;
 
@@ -32,6 +33,8 @@ void MainWindow::Update()
 	// custom titlebar for windows
 	if (ImGui::BeginMainMenuBar())
 	{
+		ImGui::Button("W");
+
 		if (ImGui::BeginMenu(_("File")))
 		{
 			LynxGui::MenuIconItem(ICON_FA_FILE, _("New Project"), "Ctrl+N");
@@ -70,6 +73,21 @@ void MainWindow::Update()
 			LynxGui::MenuIconItem(ICON_FA_QUESTION, _("View Documentation"));
 
 			ImGui::EndMenu();
+		}
+
+		if (ImGui::Button("MIN"))
+		{
+			SDL_MinimizeWindow(SDL_GL_GetCurrentWindow());
+		}
+		if (ImGui::Button("MAX"))
+		{
+			SDL_MaximizeWindow(SDL_GL_GetCurrentWindow());
+		}
+		if (ImGui::Button("X"))
+		{
+			SDL_Event ev;
+			ev.type = SDL_QUIT;
+			SDL_PushEvent(&ev);
 		}
 
 		std::string verString = fmt::format("Lynx Animator v{}", PROJECT_VERSION_PRETTY);
