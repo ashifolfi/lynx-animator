@@ -3,6 +3,7 @@
 #include "gui/AboutPanel.hpp"
 #include "gui/ToolsPanel.hpp"
 #include "gui/NewProjectPanel.hpp"
+#include "gui/SwatchPanel.hpp"
 #include "gui/WidgetHelpers.hpp"
 
 #include "intl.h"
@@ -24,6 +25,7 @@ MainWindow::MainWindow()
 	AddPanel(new AboutPanel());
 	AddPanel(new ToolsPanel());
 	AddPanel(new NewProjectPanel());
+	AddPanel(new SwatchPanel());
 }
 
 // used to prevent exiting the rect from stopping a drag (annoying)
@@ -114,6 +116,24 @@ void MainWindow::Update()
 			LynxGui::MenuIconItem(ICON_FA_PASTE, _("Paste"), "Ctrl+V");
 			LynxGui::MenuIconItem(ICON_FA_TRASH, _("Delete"), "Delete");
 
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu(_("Window")))
+		{
+			if (ImGui::BeginMenu(_("Panels")))
+			{
+				for (ImGuiPanel* panel : m_Panels)
+				{
+					if (ImGui::MenuItem(fmt::format("{}_toggle", panel->GetFullName()).c_str(), nullptr, panel->Visible))
+					{
+						panel->Visible = !panel->Visible;
+					}
+				}
+
+				ImGui::EndMenu();
+			}
+			
 			ImGui::EndMenu();
 		}
 
@@ -224,10 +244,15 @@ void MainWindow::Update()
 		ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
 		ImGui::DockBuilderSetNodeSize(dockspace_id, viewport->Size);
 
-		auto dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, nullptr, &dockspace_id);
+		auto dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.15f, nullptr, &dockspace_id);
+		auto dock_id_right2 = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.35f, nullptr, &dockspace_id);
+		ImGui::DockBuilderSetNodeSize(dock_id_right, ImVec2(48, viewport->Size.y));
 
 		ImGui::DockBuilderDockWindow(GetPanel("lynx-tools-panel")->GetFullName().c_str(), dock_id_right);
-		ImGui::DockBuilderDockWindow("Documents##lynx-stage-doc-view", dockspace_id);
+		ImGui::DockBuilderDockWindow(GetPanel("lynx-swatch-panel")->GetFullName().c_str(), dock_id_right2);
+		ImGui::DockBuilderDockWindow("##lynx-stage-doc-view", dockspace_id);
+
+		ImGui::DockBuilderGetNode(dockspace_id)->LocalFlags |= ImGuiDockNodeFlags_HiddenTabBar;
 
 		ImGui::DockBuilderFinish(dockspace_id);
 	}
@@ -235,7 +260,7 @@ void MainWindow::Update()
 	ImGui::End();
 #pragma endregion
 
-	if (ImGui::Begin("Documents##lynx-stage-doc-view", nullptr, ImGuiWindowFlags_NoDecoration))
+	if (ImGui::Begin("##lynx-stage-doc-view", nullptr, ImGuiWindowFlags_NoDecoration))
 	{
 		if (ImGui::BeginTabBar("lynx-projects-tab-bar"))
 		{

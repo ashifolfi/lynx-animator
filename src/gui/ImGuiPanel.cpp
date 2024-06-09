@@ -42,3 +42,8 @@ std::string ImGuiPanel::GetPanelID()
 {
 	return this->m_StrId;
 }
+
+std::string ImGuiPanel::GetTitle()
+{
+	return this->m_Title;
+}

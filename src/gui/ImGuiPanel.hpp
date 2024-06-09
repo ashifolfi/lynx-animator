@@ -17,6 +17,7 @@ public:
 	std::string GetPanelID();
 	// returns both name + ID (used for dockbuilder)
 	std::string GetFullName();
+	std::string GetTitle();
 protected:
 	// note: this is defined here because it doesn't do anything by default
 	virtual void RenderContents() {};

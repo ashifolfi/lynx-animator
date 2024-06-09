@@ -59,6 +59,8 @@ set(PROJECT_SOURCES
 	"${SRCDIR}/gui/NewProjectPanel.cpp"
 	"${SRCDIR}/gui/ToolsPanel.hpp"
 	"${SRCDIR}/gui/ToolsPanel.cpp"
+	"${SRCDIR}/gui/SwatchPanel.hpp"
+	"${SRCDIR}/gui/SwatchPanel.cpp"
 
 	# ImGui
 	"thirdparty/imgui/imgui.cpp"
@@ -82,6 +84,8 @@ find_package(Intl REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(nlohmann_json REQUIRED)
+find_package(ZLIB REQUIRED)
+find_path(RAPIDXML_INCLUDE_DIRS "rapidxml/rapidxml.hpp")
 
 add_subdirectory("thirdparty/fmt")
 
@@ -99,6 +103,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 	SDL2::SDL2main
 	fmt::fmt-header-only
 	nlohmann_json::nlohmann_json
+	ZLIB::ZLIB
 )
 target_include_directories(${PROJECT_NAME} PUBLIC 
 	"thirdparty/imgui_extensions"
@@ -107,6 +112,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 	${OPENGL_INCLUDE_DIRS}
 	${Intl_INCLUDE_DIRS}
 	${SDL2_INCLUDE_DIRS}
+	${RAPIDXML_INCLUDE_DIRS}
 )
 
 # copy these next to the executable
