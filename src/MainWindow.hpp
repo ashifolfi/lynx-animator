@@ -20,6 +20,8 @@ public:
 
 	void AddPanel(ImGuiPanel* panel);
 	ImGuiPanel* GetPanel(std::string id);
+
+	ProjectData* GetCurrentProject();
 private:
 	std::vector<ImGuiPanel*> m_Panels;
 

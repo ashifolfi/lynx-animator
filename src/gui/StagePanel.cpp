@@ -4,6 +4,7 @@
 #include <imgui.h>
 #include <algorithm>
 #include <fmt/format.h>
+#include "../MainWindow.hpp"
 
 using namespace lynxanim;
 
@@ -17,13 +18,17 @@ StagePanel::StagePanel()
 
 void StagePanel::RenderContents()
 {
-	// don't execute the controls if we aren't in focus
-	ImGui::Text(fmt::format("Camera Zoom: {}", cameraZoom).c_str());
+	if (MainWindow::Instance->GetCurrentProject() == nullptr)
+	{
+		// return early if no project is loaded
+		ImGui::Text("No project loaded");
+		return;
+	}
+
 	if (ImGui::IsWindowFocused())
 	{
 		StageControls();
 	}
-	ImGui::SetCursorPos(ImGui::GetCursorStartPos());
 
 	RenderStage();
 }
@@ -64,7 +69,9 @@ void StagePanel::RenderStage()
 {
 	ImDrawList* winDraw = ImGui::GetWindowDrawList();
 
-	ImVec2 canvasSize = ImVec2(320, 200);
+	ProjectData* project = MainWindow::Instance->GetCurrentProject();
+
+	ImVec2 canvasSize = ImVec2(project->stageWidth, project->stageHeight);
 
 	// base coords at center of the window, offset by camera position
 	ImVec2 basePos = ImVec2(

@@ -83,7 +83,19 @@ void MainWindow::Update()
 #pragma region Menubar
 		if (ImGui::BeginMenu(_("File")))
 		{
-			LynxGui::MenuIconItem(ICON_FA_FILE, _("New Project"), "Ctrl+N");
+			if (LynxGui::MenuIconItem(ICON_FA_FILE, _("New Project"), "Ctrl+N"))
+			{
+				ProjectData demoProject{
+					1,
+					"Demo Project",
+					"Ashi",
+					640,
+					480
+				};
+
+				m_Projects.push_back(demoProject);
+				m_CurrentProject = &m_Projects.back();
+			}
 			LynxGui::MenuIconItem(ICON_FA_FOLDER, _("Open Project"), "Ctrl+O");
 			ImGui::Separator();
 			LynxGui::MenuIconItem(ICON_FA_FLOPPY_DISK, _("Save Project"), "Ctrl+S");
@@ -123,7 +135,7 @@ void MainWindow::Update()
 #pragma endregion
 
 		// centered titlebar text
-		std::string titlebarText = fmt::format("{} - Lynx Animator", "No Document");
+		std::string titlebarText = fmt::format("{} - Lynx Animator", m_CurrentProject == nullptr ? "No Document" : m_CurrentProject->Title);
 		float curPos = ImGui::GetCursorPosX();
 		ImGui::SetCursorPosX(((viewport->WorkSize.x - curPos) / 2) - (ImGui::CalcTextSize(titlebarText.c_str()).x / 2));
 		ImGui::Text(titlebarText.c_str());
@@ -260,4 +272,9 @@ ImGuiPanel* MainWindow::GetPanel(std::string id)
 
 	// return nullptr, no panel of that id exists
 	return nullptr;
+}
+
+ProjectData* lynxanim::MainWindow::GetCurrentProject()
+{
+	return m_CurrentProject;
 }
