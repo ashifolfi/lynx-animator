@@ -14,7 +14,7 @@ ToolsPanel::ToolsPanel()
 	m_StrId = "lynx-tools-panel";
 	// size and pos don't matter at all, we default to docked anyways
 
-	m_IconScale = 16.0f;
+	m_IconScale = 32.0f;
 }
 
 // oops uhh fuck
@@ -22,7 +22,29 @@ static float IconScale = 16.0f;
 
 bool ToolPanelItem(const char* icon, const char* tooltip, const char* id)
 {
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+	if (IconScale == 16.0f || IconScale == 24.0f)
+	{
+		ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[0]);
+	}
+	else if (IconScale == 32.0f)
+	{
+		ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
+	}
+	else if (IconScale == 48.0f)
+	{
+		ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[2]);
+	}
+	else if (IconScale == 64.0f)
+	{
+		ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[3]);
+	}
+
 	bool ret = ImGui::Button(fmt::format("{}##{}", icon, id).c_str(), ImVec2(IconScale, IconScale));
+
+	ImGui::PopFont();
+	ImGui::PopStyleVar();
+	
 	if (ImGui::BeginItemTooltip())
 	{
 		ImGui::Text(tooltip);
