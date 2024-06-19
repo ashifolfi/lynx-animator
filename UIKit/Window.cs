@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using System.Runtime.InteropServices;
+using Silk.NET.Core;
 using Silk.NET.Maths;
 using SkiaSharp;
 using UIKit.Controls;
@@ -144,6 +145,8 @@ public class Window : IDisposable
                                 Pressed = sdlEvent.Button.State == Sdl.Pressed,
                             });
                         }
+                        break;
+                    case { Type: (uint)EventType.Mousemotion }:
                         break;
                 }
             }

@@ -8,10 +8,21 @@ namespace UIKit.Styles;
 /// </summary>
 public abstract class UIKitStyle
 {
-    public enum PrimitiveType
+    public enum StyleState
     {
-        Button
+        Pressed,
+        Hovered,
+        Normal,
+        Disabled,
+        Selected
     }
     
-    public abstract void DrawPrimitive(SKCanvas canvas, PrimitiveType primitiveType, Widget widget);
+    public enum PrimitiveType
+    {
+        Button,
+        Field,
+        Frame
+    }
+    
+    public abstract void DrawPrimitive(SKCanvas canvas, PrimitiveType primitiveType, StyleState state, Widget widget);
 }

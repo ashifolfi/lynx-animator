@@ -1,5 +1,6 @@
 using System.Numerics;
 using SkiaSharp;
+using UIKit.Styles;
 
 namespace UIKit.Controls;
 
@@ -57,42 +58,32 @@ public class Button : Widget
     {
         using var canvas = Surface.Canvas;
 
-        var aSize = Size - new Vector2(4.0f, 4.0f);
-        
-        canvas.DrawRoundRect(2, 2, aSize.X, aSize.Y, 4, 4, new SKPaint
-        {
-            StrokeWidth = 2.0f,
-            Color = SKColors.DarkGray,
-            Style = SKPaintStyle.Stroke,
-            IsAntialias = true
-        });
-
         // rider why are you asking me to add default, I have a case for every value in ButtonState?
         switch (State)
         {
             case ButtonState.Normal:
-                canvas.DrawRoundRect(2, 2, aSize.X, aSize.Y, 4, 4, new SKPaint
-                {
-                    Color = new SKColor(50, 50, 50),
-                    Style = SKPaintStyle.Fill,
-                    IsAntialias = true
-                });
+                UIKitApplication.Style.DrawPrimitive(
+                    canvas,
+                    UIKitStyle.PrimitiveType.Button,
+                    UIKitStyle.StyleState.Normal,
+                    this
+                );
                 break;
             case ButtonState.Pressed:
-                canvas.DrawRoundRect(2, 2, aSize.X, aSize.Y, 4, 4, new SKPaint
-                {
-                    Color = new SKColor(20, 20, 20),
-                    Style = SKPaintStyle.Fill,
-                    IsAntialias = true
-                });
+                UIKitApplication.Style.DrawPrimitive(
+                    canvas,
+                    UIKitStyle.PrimitiveType.Button,
+                    UIKitStyle.StyleState.Pressed,
+                    this
+                );
                 break;
             case ButtonState.Hovered:
-                canvas.DrawRoundRect(2, 2, aSize.X, aSize.Y, 4, 4, new SKPaint
-                {
-                    Color = new SKColor(80, 80, 80),
-                    Style = SKPaintStyle.Fill,
-                    IsAntialias = true
-                });
+                UIKitApplication.Style.DrawPrimitive(
+                    canvas,
+                    UIKitStyle.PrimitiveType.Button,
+                    UIKitStyle.StyleState.Hovered,
+                    this
+                );
                 break;
         }
         
