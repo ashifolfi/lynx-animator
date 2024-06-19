@@ -13,6 +13,12 @@ public struct MbEventData
     public bool Pressed;
 }
 
+public struct MmEventData
+{
+    public int X, Y;
+    public int Dx, Dy;
+}
+
 public struct KbEventData
 {
     public bool Pressed;

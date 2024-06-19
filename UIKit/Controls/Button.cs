@@ -43,6 +43,16 @@ public class Button : Widget
         return false;
     }
 
+    protected override void OnMouseEnterEvent()
+    {
+        IsHovered = true;
+    }
+    
+    protected override void OnMouseExitEvent()
+    {
+        IsHovered = false;
+    }
+    
     protected override void OnUpdateEvent()
     {
         State = IsHovered switch

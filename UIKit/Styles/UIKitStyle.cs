@@ -23,6 +23,17 @@ public abstract class UIKitStyle
         Field,
         Frame
     }
+
+    public enum StyleColor
+    {
+        BackgroundBase,
+        BackgroundLayer1,
+        BackgroundLayer2,
+        Text,
+        DisabledText,
+        Border,
+    }
     
     public abstract void DrawPrimitive(SKCanvas canvas, PrimitiveType primitiveType, StyleState state, Widget widget);
+    public abstract SKColor GetStyleColor(StyleColor color);
 }

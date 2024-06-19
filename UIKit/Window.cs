@@ -4,6 +4,7 @@ using SkiaSharp;
 using UIKit.Controls;
 using Silk.NET.SDL;
 using Silk.NET.OpenGL;
+using UIKit.Styles;
 
 namespace UIKit;
 
@@ -145,6 +146,17 @@ public class Window : IDisposable
                         }
                         break;
                     case { Type: (uint)EventType.Mousemotion }:
+                        if (sdlEvent.Motion.X > CentralLayout.GlobalPosition.X && sdlEvent.Motion.X < CentralLayout.GlobalPosition.X + CentralLayout.Size.X
+                            && sdlEvent.Motion.Y > CentralLayout.GlobalPosition.Y && sdlEvent.Motion.Y < CentralLayout.GlobalPosition.Y + CentralLayout.Size.Y)
+                        {
+                            CentralLayout.MouseMotionEvent(new MmEventData
+                            {
+                                X = sdlEvent.Motion.X,
+                                Y = sdlEvent.Motion.Y,
+                                Dx = sdlEvent.Motion.Xrel,
+                                Dy = sdlEvent.Motion.Yrel
+                            });
+                        }
                         break;
                 }
             }
@@ -158,7 +170,7 @@ public class Window : IDisposable
             // render skia sharp
             using (var windowCanvas = m_Surface.Canvas)
             {
-                windowCanvas.Clear(SKColors.Black);
+                windowCanvas.Clear(UIKitApplication.Style.GetStyleColor(UIKitStyle.StyleColor.BackgroundBase));
 
                 CentralLayout.Paint(windowCanvas);
 

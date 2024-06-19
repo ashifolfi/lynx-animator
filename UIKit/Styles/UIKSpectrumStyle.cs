@@ -12,6 +12,8 @@ public class UIKSpectrumStyle : UIKitStyle
 {
     #region Colors
 
+    // even if not used we need them in case they DO get used later on.
+    // ReSharper disable UnusedMember.Local
     private static readonly SKColor DarkGray50 = SKColor.Parse("#252525");
     private static readonly SKColor DarkGray75 = SKColor.Parse("#2F2F2F");
     private static readonly SKColor DarkGray100 = SKColor.Parse("#323232");
@@ -71,8 +73,23 @@ public class UIKSpectrumStyle : UIKitStyle
     private static readonly SKColor DarkPurple500 = SKColor.Parse("#9D64E1");
     private static readonly SKColor DarkPurple600 = SKColor.Parse("#A873E9");
     private static readonly SKColor DarkPurple700 = SKColor.Parse("#B483F0");
+    // ReSharper enable UnusedMember.Local
 
     #endregion
+
+    public override SKColor GetStyleColor(StyleColor color)
+    {
+        // don't add a default. we want a warning for when new values are added and we don't cover them.
+        return color switch
+        {
+            StyleColor.BackgroundBase => DarkGray50,
+            StyleColor.BackgroundLayer1 => DarkGray75,
+            StyleColor.BackgroundLayer2 => DarkGray100,
+            StyleColor.Border => DarkGray300,
+            StyleColor.Text => DarkGray800,
+            StyleColor.DisabledText => DarkGray500
+        };
+    }
 
     public override void DrawPrimitive(SKCanvas canvas, PrimitiveType primitiveType, StyleState state, Widget widget)
     {
@@ -81,14 +98,6 @@ public class UIKSpectrumStyle : UIKitStyle
             case PrimitiveType.Button:
                 var paddedSize = widget.Size - new Vector2(4.0f, 4.0f);
 
-                canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
-                {
-                    Color = DarkGray300,
-                    Style = SKPaintStyle.Stroke,
-                    StrokeWidth = 1.0f,
-                    IsAntialias = true
-                });
-                
                 // todo: animate
                 switch (state)
                 {
@@ -100,20 +109,41 @@ public class UIKSpectrumStyle : UIKitStyle
                             Style = SKPaintStyle.Fill,
                             IsAntialias = true
                         });
+                        canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
+                        {
+                            Color = DarkGray400,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = 1.0f,
+                            IsAntialias = true
+                        });
                         break;
                     case StyleState.Hovered:
                         canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
                         {
-                            Color = DarkGray50,
+                            Color = DarkGray500,
                             Style = SKPaintStyle.Fill,
+                            IsAntialias = true
+                        });
+                        canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
+                        {
+                            Color = DarkGray300,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = 1.0f,
                             IsAntialias = true
                         });
                         break;
                     case StyleState.Pressed:
                         canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
                         {
-                            Color = DarkGray200,
+                            Color = DarkGray300,
                             Style = SKPaintStyle.Fill,
+                            IsAntialias = true
+                        });
+                        canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
+                        {
+                            Color = DarkGray600,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = 1.0f,
                             IsAntialias = true
                         });
                         break;

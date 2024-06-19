@@ -1,3 +1,6 @@
+using SkiaSharp;
+using UIKit.Styles;
+
 namespace UIKit.Controls;
 
 /// <summary>

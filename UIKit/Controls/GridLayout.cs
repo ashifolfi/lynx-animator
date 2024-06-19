@@ -1,5 +1,6 @@
 using System.Numerics;
 using SkiaSharp;
+using UIKit.Styles;
 
 namespace UIKit.Controls;
 
@@ -31,5 +32,16 @@ public class GridLayout : Layout
             child.Position = offset;
             offset.X += child.Size.X;
         }
+    }
+    
+    protected override void OnPaintEvent()
+    {
+        using var canvas = Surface.Canvas;
+        
+        canvas.DrawRect(0, 0, Size.X, Size.Y, new SKPaint
+        {
+            Style = SKPaintStyle.Fill,
+            Color = UIKitApplication.Style.GetStyleColor(UIKitStyle.StyleColor.BackgroundLayer1)
+        });
     }
 }

@@ -1,4 +1,5 @@
 using System.Numerics;
+using Silk.NET.Maths;
 using SkiaSharp;
 
 namespace UIKit.Controls;
@@ -124,6 +125,44 @@ public abstract class Widget
         return true;
     }
 
+    public bool MouseMotionEvent(MmEventData eventData)
+    {
+        if (!OnMouseMotionEvent(eventData))
+        {
+            var startPosX = eventData.X - eventData.Dx;
+            var startPosY = eventData.Y - eventData.Dy;
+            
+            foreach (var widget in  Children)
+            {
+                var startsIn = (
+                    startPosX > widget.GlobalPosition.X &&
+                    startPosX < widget.GlobalPosition.X + widget.Size.X
+                    && startPosY > widget.GlobalPosition.Y
+                    && startPosY < widget.GlobalPosition.Y + widget.Size.Y
+                );
+                var endsIn = (
+                    eventData.X > widget.GlobalPosition.X &&
+                    eventData.X < widget.GlobalPosition.X + widget.Size.X
+                    && eventData.Y > widget.GlobalPosition.Y 
+                    && eventData.Y < widget.GlobalPosition.Y + widget.Size.Y
+                );
+
+                if (startsIn && !endsIn)
+                    widget.OnMouseExitEvent();
+                else if (!startsIn && endsIn)
+                    widget.OnMouseEnterEvent();
+                
+                if (endsIn && widget.MouseMotionEvent(eventData))
+                {
+                    return true;
+                }
+            }
+            // was not handled
+            return false;
+        }
+        return true;
+    }
+
     public bool KeyboardEvent(KbEventData eventData)
     {
         if (!OnKeyboardEvent(eventData))
@@ -150,7 +189,6 @@ public abstract class Widget
     {
         if (!OnTextInputEvent(text))
         {
-            Console.WriteLine(text);
             foreach (var widget in Children)
             {
                 if (widget is IFocusable { IsFocused: true })
@@ -189,6 +227,19 @@ public abstract class Widget
         return false;
     }
 
+    protected virtual bool OnMouseMotionEvent(MmEventData data)
+    {
+        return false;
+    }
+    
+    protected virtual void OnMouseEnterEvent()
+    {
+    }
+    
+    protected virtual void OnMouseExitEvent()
+    {
+    }
+    
     protected virtual bool OnKeyboardEvent(KbEventData data)
     {
         return false;
