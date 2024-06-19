@@ -38,6 +38,14 @@ public class HorizontalListLayout : Layout
         {
             // change position to match up with list
             widget.Position = new Vector2(xOffset, 0.0f);
+            
+            // adjust size based on policy
+            switch (widget.HorizontalSizePolicy)
+            {
+                case SizePolicy.Maximum:
+                    break;
+            }
+            
             xOffset += Separation + widget.Size.X;
         }
     }

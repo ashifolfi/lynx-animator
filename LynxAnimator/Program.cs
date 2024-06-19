@@ -482,7 +482,7 @@ class Program
         using var mainWindow = new Window(
             "Lynx Animator",
             new Vector2D<int>(1280, 720),
-            new Vector2D<int>(100, 200)
+            new Vector2D<int>(20, 20)
         );
         mainWindow.CentralLayout = new AbsoluteLayout(null);
 
@@ -496,7 +496,7 @@ class Program
         // add swatch buttons
         foreach (var swatch in document.SwatchGroups[0].Swatches)
         {
-            var swatchButton = new SolidSwatchGroupItem(grid)
+            new SolidSwatchGroupItem(grid)
             {
                 SwatchItem = swatch,
                 Size = new Vector2(16, 16),
@@ -507,7 +507,7 @@ class Program
         {
             Placeholder = "type here :3",
             Position = new Vector2(100, 180),
-            Size = new Vector2(240, 30),
+            Size = new Vector2(252, 45),
         };
         
         var button = new Button(mainWindow.CentralLayout)

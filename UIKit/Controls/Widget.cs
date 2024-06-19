@@ -6,6 +6,31 @@ namespace UIKit.Controls;
 
 public abstract class Widget
 {
+    /// <summary>
+    /// How should the widget resize when placed within a layout
+    /// </summary>
+    public enum SizePolicy
+    {
+        /// <summary>
+        /// Don't change size
+        /// </summary>
+        None,
+        /// <summary>
+        /// Fill as little space as possible
+        /// </summary>
+        Minimum,
+        /// <summary>
+        /// Fill as much space possible
+        /// </summary>
+        Maximum,
+        /// <summary>
+        /// Expand to fit contents as needed
+        /// </summary>
+        Expand
+    }
+
+    public SizePolicy HorizontalSizePolicy = SizePolicy.None;
+    public SizePolicy VerticalSizePolicy = SizePolicy.None;
     public Vector2 Position;
     public Vector2 GlobalPosition => Parent != null ? Position + Parent.GlobalPosition : Position;
     // reasonable defaults

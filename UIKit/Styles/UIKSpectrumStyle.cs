@@ -96,6 +96,7 @@ public class UIKSpectrumStyle : UIKitStyle
         switch (primitiveType)
         {
             case PrimitiveType.Button:
+            {
                 var paddedSize = widget.Size - new Vector2(4.0f, 4.0f);
 
                 // todo: animate
@@ -150,6 +151,53 @@ public class UIKSpectrumStyle : UIKitStyle
                 }
 
                 break;
+            }
+            case PrimitiveType.Field:
+            {
+                var paddedSize = widget.Size - new Vector2(4.0f, 4.0f);
+
+                canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
+                {
+                    Color = DarkGray50,
+                    Style = SKPaintStyle.Fill,
+                    IsAntialias = true
+                });
+
+                // todo: animate
+                switch (state)
+                {
+                    default:
+                    case StyleState.Normal:
+                        canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
+                        {
+                            Color = DarkGray500,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = 1.0f,
+                            IsAntialias = true
+                        });
+                        break;
+                    case StyleState.Hovered:
+                        canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
+                        {
+                            Color = DarkGray600,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = 1.0f,
+                            IsAntialias = true
+                        });
+                        break;
+                    case StyleState.Pressed:
+                        canvas.DrawRoundRect(2, 2, paddedSize.X, paddedSize.Y, 4, 4, new SKPaint
+                        {
+                            Color = DarkGray800,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = 1.0f,
+                            IsAntialias = true
+                        });
+                        break;
+                }
+
+                break;
+            }
         }
     }
 }
