@@ -8,6 +8,12 @@ namespace UIKit.Styles;
 /// </summary>
 public abstract class UIKitStyle
 {
+    public enum ControlType
+    {
+        Button,
+        Field
+    }
+    
     public enum StyleState
     {
         Pressed,
@@ -37,5 +43,6 @@ public abstract class UIKitStyle
     public abstract SKTypeface DefaultTypeface { get; }
     
     public abstract void DrawPrimitive(SKCanvas canvas, PrimitiveType primitiveType, StyleState state, Widget widget);
+    public abstract void DrawControl(SKCanvas canvas, ControlType control, StyleState state, Widget widget);
     public abstract SKColor GetStyleColor(StyleColor color);
 }

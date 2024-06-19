@@ -90,6 +90,36 @@ public class UIKAeroStyle : UIKitStyle
         }
     }
 
+    public override void DrawControl(SKCanvas canvas, ControlType control, StyleState state, Widget widget)
+    {
+        switch (control)
+        {
+            case ControlType.Button:
+                DrawPrimitive(
+                    canvas,
+                    PrimitiveType.Button,
+                    state,
+                    widget
+                );
+
+                var widgetButton = (Button)widget;
+
+                var font = DefaultTypeface.ToFont(14.0f);
+                canvas.DrawText(widgetButton?.Text,
+                    widget.Size.X / 2, (widget.Size.Y / 2) + ((font.Metrics.CapHeight - font.Metrics.Descent) / 2), font,
+                    new SKPaint
+                    {
+                        Color = UIKitApplication.Style.GetStyleColor(StyleColor.Text),
+                        TextAlign = SKTextAlign.Center,
+                        IsStroke = false,
+                        IsAntialias = true
+                    }
+                );
+                
+                break;
+        }
+    }
+
     public override SKColor GetStyleColor(StyleColor color)
     {
         return color switch

@@ -72,42 +72,29 @@ public class Button : Widget
         switch (State)
         {
             case ButtonState.Normal:
-                UIKitApplication.Style.DrawPrimitive(
+                UIKitApplication.Style.DrawControl(
                     canvas,
-                    UIKitStyle.PrimitiveType.Button,
+                    UIKitStyle.ControlType.Button,
                     UIKitStyle.StyleState.Normal,
                     this
                 );
                 break;
             case ButtonState.Pressed:
-                UIKitApplication.Style.DrawPrimitive(
+                UIKitApplication.Style.DrawControl(
                     canvas,
-                    UIKitStyle.PrimitiveType.Button,
+                    UIKitStyle.ControlType.Button,
                     UIKitStyle.StyleState.Pressed,
                     this
                 );
                 break;
             case ButtonState.Hovered:
-                UIKitApplication.Style.DrawPrimitive(
+                UIKitApplication.Style.DrawControl(
                     canvas,
-                    UIKitStyle.PrimitiveType.Button,
+                    UIKitStyle.ControlType.Button,
                     UIKitStyle.StyleState.Hovered,
                     this
                 );
                 break;
         }
-        
-        // todo: this should probably become a part of the style code
-        var font = UIKitApplication.Style.DefaultTypeface.ToFont(14.0f);
-        canvas.DrawText(Text,
-            Size.X / 2, (Size.Y / 2) + ((font.Metrics.CapHeight - font.Metrics.Descent) / 2), font,
-            new SKPaint
-            {
-                Color = UIKitApplication.Style.GetStyleColor(UIKitStyle.StyleColor.Text),
-                TextAlign = SKTextAlign.Center,
-                IsStroke = false,
-                IsAntialias = true
-            }
-        );
     }
 }
