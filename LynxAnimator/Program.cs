@@ -523,7 +523,7 @@ class Program
             {
                 Text = "Hello UIKit",
                 Position = new Vector2(20, 20),
-                Size = new Vector2(30, 18),
+                Size = new Vector2(100, 100),
             };
         };
 
