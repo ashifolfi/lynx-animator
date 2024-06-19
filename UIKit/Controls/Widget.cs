@@ -7,12 +7,24 @@ public abstract class Widget
 {
     public Vector2 Position;
     public Vector2 GlobalPosition => Parent != null ? Position + Parent.GlobalPosition : Position;
+    // reasonable defaults
+    /// <summary>
+    /// The absolute smallest size a widget can be
+    /// </summary>
+    public Vector2 MinimumSize = new Vector2(16, 16);
+    /// <summary>
+    /// The absolute largest size a widget can be
+    /// </summary>
+    public Vector2 MaximumSize = new Vector2(10000, 10000);
     public Vector2 Size
     {
         get => m_Size;
         set
         {
-            m_Size = value;
+            m_Size = new Vector2(
+                Math.Clamp(value.X, MinimumSize.X, MaximumSize.X),
+                Math.Clamp(value.Y, MinimumSize.Y, MaximumSize.Y)
+            );
             RecreateSurface();
         }
     }
