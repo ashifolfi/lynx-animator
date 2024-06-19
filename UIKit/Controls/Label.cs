@@ -1,4 +1,5 @@
 using SkiaSharp;
+using UIKit.Styles;
 
 namespace UIKit.Controls;
 
@@ -19,12 +20,14 @@ public class Label : Widget
     {
         using var canvas = Surface.Canvas;
         
-        using var paint = new SKPaint();
-        paint.TextSize = 16.0f;
-        paint.IsAntialias = true;
-        paint.Color = SKColors.White;
-        paint.IsStroke = false;
-
-        canvas.DrawText(Text, Position.X, Position.Y, paint);
+        canvas.DrawText(Text, Position.X, Position.Y,
+            UIKitApplication.Style.DefaultTypeface.ToFont(14.0f),
+            new SKPaint
+            {
+                IsAntialias = true,
+                IsStroke = false,
+                Color = UIKitApplication.Style.GetStyleColor(UIKitStyle.StyleColor.Text)
+            }
+        );
     }
 }

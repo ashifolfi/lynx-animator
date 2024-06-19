@@ -67,7 +67,8 @@ public class InputField : Widget, IFocusable
         using var canvas = Surface.Canvas;
         
         UIKitApplication.Style.DrawPrimitive(canvas, UIKitStyle.PrimitiveType.Field, UIKitStyle.StyleState.Normal, this);
-
+        
+        // todo: this should probably become a part of the style code
         var font = UIKitApplication.Style.DefaultTypeface.ToFont(14.0f);
         canvas.DrawText(Text == string.Empty ? Placeholder : Text,
             13, (Size.Y / 2) + ((font.Metrics.CapHeight - font.Metrics.Descent) / 2), font,

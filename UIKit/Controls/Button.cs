@@ -97,13 +97,17 @@ public class Button : Widget
                 break;
         }
         
-        canvas.DrawText(Text, Size.X / 2, Size.Y / 2, new SKPaint
-        {
-            Color = SKColors.White,
-            TextSize = 16.0f,
-            TextAlign = SKTextAlign.Center,
-            IsStroke = false,
-            IsAntialias = true
-        });
+        // todo: this should probably become a part of the style code
+        var font = UIKitApplication.Style.DefaultTypeface.ToFont(14.0f);
+        canvas.DrawText(Text,
+            Size.X / 2, (Size.Y / 2) + ((font.Metrics.CapHeight - font.Metrics.Descent) / 2), font,
+            new SKPaint
+            {
+                Color = UIKitApplication.Style.GetStyleColor(UIKitStyle.StyleColor.Text),
+                TextAlign = SKTextAlign.Center,
+                IsStroke = false,
+                IsAntialias = true
+            }
+        );
     }
 }
