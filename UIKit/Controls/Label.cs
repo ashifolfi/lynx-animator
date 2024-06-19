@@ -1,5 +1,6 @@
 using SkiaSharp;
 using UIKit.Styles;
+using UIKit.Extentions;
 
 namespace UIKit.Controls;
 
@@ -20,7 +21,7 @@ public class Label : Widget
     {
         using var canvas = Surface.Canvas;
         
-        canvas.DrawText(Text, Position.X, Position.Y,
+        canvas.DrawTextExt(Text, Position.X, Position.Y,
             UIKitApplication.Style.DefaultTypeface.ToFont(14.0f),
             new SKPaint
             {
