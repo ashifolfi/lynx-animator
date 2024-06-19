@@ -10,8 +10,7 @@ public abstract class UIKitStyle
 {
     public enum ControlType
     {
-        Button,
-        Field
+        Button
     }
     
     public enum StyleState
@@ -25,9 +24,8 @@ public abstract class UIKitStyle
     
     public enum PrimitiveType
     {
-        Button,
-        Field,
-        Frame
+        ButtonFrame,
+        FieldFrame
     }
 
     public enum StyleColor

@@ -12,7 +12,6 @@ public class UIKSpectrumStyle : UIKitStyle
 {
     #region Colors
 
-    // todo: these colors feel off.
     // even if not used we need them in case they DO get used later on.
     // ReSharper disable UnusedMember.Local
     private static readonly SKColor DarkGray50 = new(29, 29, 29);
@@ -239,7 +238,7 @@ public class UIKSpectrumStyle : UIKitStyle
     {
         switch (primitiveType)
         {
-            case PrimitiveType.Button:
+            case PrimitiveType.ButtonFrame:
             {
                 var paddedSize = widget.Size - new Vector2(4.0f, 4.0f);
 
@@ -296,7 +295,7 @@ public class UIKSpectrumStyle : UIKitStyle
 
                 break;
             }
-            case PrimitiveType.Field:
+            case PrimitiveType.FieldFrame:
             {
                 var paddedSize = widget.Size - new Vector2(4.0f, 4.0f);
 
@@ -352,7 +351,7 @@ public class UIKSpectrumStyle : UIKitStyle
             case ControlType.Button:
                 DrawPrimitive(
                     canvas,
-                    PrimitiveType.Button,
+                    PrimitiveType.ButtonFrame,
                     state,
                     widget
                 );

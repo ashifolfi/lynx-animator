@@ -27,7 +27,7 @@ public class UIKAeroStyle : UIKitStyle
     {
         switch (primitiveType)
         {
-            case PrimitiveType.Button:
+            case PrimitiveType.ButtonFrame:
                 // 1px border size
                 var padSize = widget.Size - new Vector2(2.0f, 2.0f);
 
@@ -97,7 +97,7 @@ public class UIKAeroStyle : UIKitStyle
             case ControlType.Button:
                 DrawPrimitive(
                     canvas,
-                    PrimitiveType.Button,
+                    PrimitiveType.ButtonFrame,
                     state,
                     widget
                 );
