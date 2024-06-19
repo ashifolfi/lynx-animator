@@ -519,7 +519,7 @@ class Program
         button.OnPressed += (sender, eventArgs) =>
         {
             // shut up rider, this button is gone when the window is disposed anyways
-            var label = new Label(mainWindow.CentralLayout)
+            new Label(mainWindow.CentralLayout)
             {
                 Text = "Hello UIKit",
                 Position = new Vector2(20, 20),
