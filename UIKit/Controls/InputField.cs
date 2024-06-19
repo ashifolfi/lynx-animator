@@ -68,32 +68,17 @@ public class InputField : Widget, IFocusable
         
         UIKitApplication.Style.DrawPrimitive(canvas, UIKitStyle.PrimitiveType.Field, UIKitStyle.StyleState.Normal, this);
 
-        if (Text == string.Empty)
-        {
-            var lineHeight = SKTypeface.Default.ToFont().Metrics.XHeight;
-            
-            canvas.DrawText(Placeholder, 6, (Size.Y / 2) + (lineHeight / 2), new SKPaint
-            {
-                Color = UIKitApplication.Style.GetStyleColor(UIKitStyle.StyleColor.DisabledText),
-                TextSize = 16.0f,
-                TextAlign = SKTextAlign.Left,
-                IsStroke = false,
-                IsAntialias = true
-            });
-        }
-        else
-        {
-            var lineHeight = SKTypeface.Default.ToFont().Metrics.XHeight;
-            
-            canvas.DrawText(Text, 6, (Size.Y / 2) + (lineHeight / 2), new SKPaint
+        var font = UIKitApplication.Style.DefaultTypeface.ToFont(14.0f);
+        canvas.DrawText(Text == string.Empty ? Placeholder : Text,
+            13, (Size.Y / 2) + ((font.Metrics.CapHeight - font.Metrics.Descent) / 2), font,
+            new SKPaint
             {
                 Color = UIKitApplication.Style.GetStyleColor(UIKitStyle.StyleColor.Text),
-                TextSize = 16.0f,
                 TextAlign = SKTextAlign.Left,
                 IsStroke = false,
                 IsAntialias = true
-            });
-        }
+            }
+        );
     }
 
     // we don't implement OnFocusEvent as we don't do anything special when focused

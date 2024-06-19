@@ -34,6 +34,8 @@ public abstract class UIKitStyle
         Border,
     }
     
+    public abstract SKTypeface DefaultTypeface { get; }
+    
     public abstract void DrawPrimitive(SKCanvas canvas, PrimitiveType primitiveType, StyleState state, Widget widget);
     public abstract SKColor GetStyleColor(StyleColor color);
 }

@@ -507,7 +507,7 @@ class Program
         {
             Placeholder = "type here :3",
             Position = new Vector2(100, 180),
-            Size = new Vector2(252, 45),
+            Size = new Vector2(244, 36),
         };
         
         var button = new Button(mainWindow.CentralLayout)
@@ -521,9 +521,9 @@ class Program
             // shut up rider, this button is gone when the window is disposed anyways
             new Label(mainWindow.CentralLayout)
             {
-                Text = "Hello UIKit",
+                Text = "Hello UIKit!\nThis is a multiline text!",
                 Position = new Vector2(20, 20),
-                Size = new Vector2(100, 100),
+                Size = new Vector2(200, 200),
             };
         };
 
