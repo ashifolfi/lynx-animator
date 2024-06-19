@@ -18,7 +18,7 @@ public static class UIKitApplication
 
     public static void Run()
     {
-        bool done = false;
+        var done = false;
         
         while (!done)
         {

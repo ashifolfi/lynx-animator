@@ -1,6 +1,4 @@
 ﻿using System.Numerics;
-using System.Runtime.InteropServices;
-using Silk.NET.Core;
 using Silk.NET.Maths;
 using SkiaSharp;
 using UIKit.Controls;
@@ -78,7 +76,7 @@ public class Window : IDisposable
             m_Context.Create();
             m_Context.MakeCurrent();
 
-            var glInterface = GRGlInterface.CreateOpenGl((name) =>
+            var glInterface = GRGlInterface.CreateOpenGl(name =>
             {
                 var addr = m_Sdl.GLGetProcAddress(name);
                 return (IntPtr)addr;
@@ -129,7 +127,7 @@ public class Window : IDisposable
                         {
                             Key = (KeyCode)sdlEvent.Key.Keysym.Sym,
                             Repeat = sdlEvent.Key.Repeat > 0,
-                            Pressed = sdlEvent.Key.State == Sdl.Pressed,
+                            Pressed = sdlEvent.Key.State == Sdl.Pressed
                         });
                         break;
                     case { Type: (uint)EventType.Mousebuttonup }:
@@ -142,7 +140,7 @@ public class Window : IDisposable
                                 Button = sdlEvent.Button.Button,
                                 X = sdlEvent.Button.X,
                                 Y = sdlEvent.Button.Y,
-                                Pressed = sdlEvent.Button.State == Sdl.Pressed,
+                                Pressed = sdlEvent.Button.State == Sdl.Pressed
                             });
                         }
                         break;

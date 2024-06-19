@@ -11,11 +11,11 @@ public abstract class Widget
     /// <summary>
     /// The absolute smallest size a widget can be
     /// </summary>
-    public Vector2 MinimumSize = new Vector2(16, 16);
+    public Vector2 MinimumSize = new(16, 16);
     /// <summary>
     /// The absolute largest size a widget can be
     /// </summary>
-    public Vector2 MaximumSize = new Vector2(10000, 10000);
+    public Vector2 MaximumSize = new(10000, 10000);
     public Vector2 Size
     {
         get => m_Size;
@@ -40,7 +40,7 @@ public abstract class Widget
     }
     
     public bool IsHovered = false;
-    public Widget? Parent = null;
+    public Widget? Parent;
     public IReadOnlyList<Widget> Children => m_Children;
     
     private Vector2 m_Size;
@@ -57,20 +57,16 @@ public abstract class Widget
     public void AddChild(Widget widget)
     {
         // Unparent this widget if it's already parented
-        if (widget.Parent != null)
-            widget.Parent.RemoveChild(widget);
-        
+        widget.Parent?.RemoveChild(widget);
+
         m_Children.Add(widget);
         widget.Parent = this;
     }
 
     public void RemoveChild(Widget widget)
     {
-        if (m_Children.Contains(widget))
-        {
-            m_Children.Remove(widget);
+        if (m_Children.Remove(widget))
             widget.Parent = null;
-        }
     }
     
     public void Update()
