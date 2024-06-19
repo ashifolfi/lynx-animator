@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Xml;
 using LibXfl;
 using LynxAnimator.GUI.Controls;
+using UIKit.Styles;
 
 namespace LynxAnimator;
 
